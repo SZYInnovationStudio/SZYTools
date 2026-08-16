@@ -2,6 +2,8 @@
 
 SZY工具集是由 SZY创新工作室 开发的多功能工具集合，提供网页版与安卓版两个版本，功能保持一致。
 
+网页端在线使用地址：[https://tools.szystudio.cn](https://tools.szystudio.cn)
+
 网页版基于原生 HTML、CSS、JavaScript 实现，不依赖构建工具与前端框架，部署至任意静态环境即可使用。安卓版基于 HBuilderX 的 HTML5+（5+ App）技术封装，页面与网页版同源，并通过 H5+ API 扩展原生能力，包括图片保存至相册、应用内更新、外链调用系统浏览器等。
 
 ## 功能
@@ -88,7 +90,27 @@ python -m http.server 8000
 
 ## 许可证
 
-本项目采用 MIT 许可证，可自由使用、修改与分发，使用时需保留版权声明。开源前建议在根目录补充对应的 LICENSE 文件。
+MIT License
+
+Copyright (c) 2026 SZY创新工作室
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 ## 版权
 
