@@ -283,16 +283,16 @@ a { text-decoration: none; }
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(24px) scale(0.98);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
 }
 
 .card {
-    animation: fadeInUp 0.5s ease-out forwards;
+    animation: fadeInUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
 .card:nth-child(1) { animation-delay: 0.1s; }
@@ -320,5 +320,14 @@ a { text-decoration: none; }
 
     .card-arrow {
         display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
     }
 }
