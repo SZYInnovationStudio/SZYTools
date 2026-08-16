@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - 页面未找到 | SZY工具集</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🔐</text></svg>">
+    <style>
+        :root {
+            --accent: #5b8def;
+            --accent-light: #e8f0fe;
+            --accent-glow: rgba(91, 141, 239, 0.25);
+            --danger: #e85d75;
+            --danger-light: #fde8ec;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --border: #e5e7eb;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.12);
+            --radius-sm: 8px;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', 'Monaco', 'Menlo', 'Courier New', monospace;
+            --grid-color: rgba(0, 0, 0, 0.04);
+            --grid-size: 22px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
+            background-color: #f8f9fb;
+            background-image:
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: var(--grid-size) var(--grid-size);
+            background-position: -1px -1px;
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        /* Logo区域 */
+        .logo-section {
+            margin-bottom: 40px;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .logo-char {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 2.2rem;
+            font-weight: 700;
+            width: 46px;
+            height: 46px;
+            border-radius: 10px;
+            transition: all var(--transition);
+        }
+
+		.logo-s {
+			background: #e8f0fe;
+			color: #3b7de0;
+		}
+
+		.logo-z {
+			background: #fde8ec;
+			color: #d94862;
+		}
+
+		.logo-y {
+			background: #e5e7eb;
+			color: #6b7280;
+			font-size: 1.6rem;
+		}
+
+        .logo-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-left: 8px;
+            letter-spacing: 1px;
+        }
+
+        .logo-subtitle {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        @keyframes floatChar {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error-section {
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .error-code-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 24px;
+        }
+
+        .error-code {
+            font-family: var(--font-mono);
+            font-size: 8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #5b8def 0%, #7b68ee 50%, #e85d75 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            letter-spacing: -4px;
+            position: relative;
+        }
+
+        .error-glitch {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-family: var(--font-mono);
+            font-size: 8rem;
+            font-weight: 900;
+            letter-spacing: -4px;
+            color: rgba(91, 141, 239, 0.3);
+            animation: glitchEffect 3s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes glitchEffect {
+            0%, 100% { transform: translate(0); opacity: 0; }
+            5% { transform: translate(-3px, 2px); opacity: 0.5; }
+            10% { transform: translate(3px, -1px); opacity: 0; }
+            15% { transform: translate(-1px, -2px); opacity: 0.3; }
+            20% { transform: translate(0); opacity: 0; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .error-message {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            line-height: 1.8;
+        }
+
+        .cipher-easter-egg {
+            background: #ffffff;
+            border: 2px dashed var(--border);
+            border-radius: var(--radius-lg);
+            padding: 20px 24px;
+            margin-bottom: 32px;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .cipher-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cipher-content {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            word-break: break-all;
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+        }
+
+        .cipher-content .char-l {
+            color: #3b7de0;
+            font-weight: 600;
+        }
+
+        .cipher-content .char-i {
+            color: #d94862;
+            font-weight: 600;
+        }
+
+        .cipher-content .char-pipe {
+            color: #9ca3af;
+            font-weight: 600;
+        }
+
+        .cipher-note {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .cipher-legend {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed var(--border);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+        .legend-dot.dot-l {
+            background: #e8f0fe;
+            border: 2px solid #5b8def;
+        }
+
+        .legend-dot.dot-i {
+            background: #fde8ec;
+            border: 2px solid #e85d75;
+        }
+
+        .legend-dot.dot-pipe {
+            background: #f3f4f6;
+            border: 2px solid #9ca3af;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all var(--transition);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #ffffff;
+            border-color: var(--accent);
+            box-shadow: 0 2px 8px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            background: #4a7de0;
+            border-color: #4a7de0;
+            box-shadow: 0 4px 16px rgba(91, 141, 239, 0.35);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: #ffffff;
+            color: var(--text-secondary);
+            border-color: var(--border);
+        }
+
+        .btn-outline:hover {
+            background: #f9fafb;
+            border-color: #c0c7d0;
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .btn-icon {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+        
+        .footer {
+            margin-top: 48px;
+            animation: fadeInUp 0.8s ease-out 0.8s both;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            text-decoration: none;
+            transition: color var(--transition);
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+
+        .footer-link:hover {
+            color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        .footer-icon {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+            opacity: 0.6;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleFloat 6s infinite;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; background: #5b8def; }
+        .particle:nth-child(2) { left: 25%; animation-delay: 1s; background: #7b68ee; }
+        .particle:nth-child(3) { left: 40%; animation-delay: 2s; background: #e85d75; }
+        .particle:nth-child(4) { left: 55%; animation-delay: 3s; background: #4caf84; }
+        .particle:nth-child(5) { left: 70%; animation-delay: 4s; background: #f59e0b; }
+        .particle:nth-child(6) { left: 85%; animation-delay: 5s; background: #8b5cf6; }
+        .particle:nth-child(7) { left: 15%; animation-delay: 0.5s; background: #3b7de0; }
+        .particle:nth-child(8) { left: 35%; animation-delay: 1.5s; background: #d94862; }
+        .particle:nth-child(9) { left: 50%; animation-delay: 2.5s; background: #059669; }
+        .particle:nth-child(10) { left: 65%; animation-delay: 3.5s; background: #d97706; }
+        .particle:nth-child(11) { left: 80%; animation-delay: 4.5s; background: #6366f1; }
+        .particle:nth-child(12) { left: 20%; animation-delay: 5.5s; background: #ec4899; }
+
+        @keyframes particleFloat {
+            0% {
+                opacity: 0;
+                top: 110%;
+                transform: translateX(0) scale(1);
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 0;
+                top: -10%;
+                transform: translateX(50px) scale(0.3);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .error-code {
+                font-size: 5rem;
+            }
+            
+            .error-glitch {
+                font-size: 5rem;
+            }
+            
+            .error-title {
+                font-size: 1.2rem;
+            }
+            
+            .error-message {
+                font-size: 0.9rem;
+            }
+            
+            .cipher-content {
+                font-size: 0.7rem;
+            }
+            
+            .logo-char {
+                font-size: 1.6rem;
+                width: 36px;
+                height: 36px;
+            }
+            
+            .actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .cipher-legend {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles">
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+        <span class="particle"></span>
+    </div>
+
+    <div class="container">
+        <div class="logo-section">
+            <div class="logo-wrapper">
+                <span class="logo-char logo-s">S</span>
+                <span class="logo-char logo-z">Z</span>
+                <span class="logo-char logo-y">Y</span>
+                <span class="logo-text">工具集</span>
+            </div>
+            <p class="logo-subtitle">多功能工具集合</p>
+        </div>
+
+        <div class="error-section">
+            <div class="error-code-wrapper">
+                <span class="error-code">404</span>
+                <span class="error-glitch">404</span>
+            </div>
+            <h1 class="error-title">🔐 页面已被暗语加密隐藏</h1>
+            <p class="error-message">
+                抱歉，您访问的页面不存在或已被移动到其他位置。<br>
+                它被加密成了 <code style="background:#eef1f5;padding:2px 7px;border-radius:4px;font-family:var(--font-mono);">l</code><code style="background:#fde8ec;padding:2px 7px;border-radius:4px;font-family:var(--font-mono);">I</code><code style="background:#f3f4f6;padding:2px 7px;border-radius:4px;font-family:var(--font-mono);">|</code> 暗语，暂时无法解密。
+            </p>
+        </div>
+
+        <div class="cipher-easter-egg">
+            <div class="cipher-label">🔍 当前路径的 lI| 暗语密文</div>
+            <div class="cipher-content" id="cipherPath"></div>
+            <div class="cipher-legend">
+                <span class="legend-item">
+                    <span class="legend-dot dot-l"></span> l = 0
+                </span>
+                <span class="legend-item">
+                    <span class="legend-dot dot-i"></span> I = 1
+                </span>
+                <span class="legend-item">
+                    <span class="legend-dot dot-pipe"></span> | = 分隔符
+                </span>
+            </div>
+            <div class="cipher-note">提示：这段暗语无法解密，就像这个页面无法找到一样~</div>
+        </div>
+
+        <div class="actions">
+            <a href="index.html" class="btn btn-primary">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                返回首页
+            </a>
+            <a href="javascript:history.back()" class="btn btn-outline">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                返回上一页
+            </a>
+        </div>
+
+        <div class="footer">
+            <div class="footer-links">
+                <a href="https://www.szystudio.cn" target="_blank" rel="noopener noreferrer" class="footer-link">
+                    <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                    <span>SZY创新工作室 提供技术</span>
+                </a>
+                <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer" class="footer-link">
+                    <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                    <span>京ICP备2024098823号-4</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            'use strict';
+
+            function encryptToCipher(text) {
+                if (!text) return '';
+                const parts = [];
+                for (let i = 0; i < text.length; i++) {
+                    let charCode = text.charCodeAt(i);
+                    let binary = charCode.toString(2).padStart(16, '0');
+                    let encoded = '';
+                    for (let j = 0; j < binary.length; j++) {
+                        encoded += binary[j] === '0' ? 'l' : 'I';
+                    }
+                    parts.push(encoded);
+                }
+                return parts.join('|');
+            }
+
+            function colorizeCipher(cipherText) {
+                if (!cipherText) return '';
+                let result = '';
+                for (let i = 0; i < cipherText.length; i++) {
+                    const char = cipherText[i];
+                    if (char === 'l') {
+                        result += '<span class="char-l">l</span>';
+                    } else if (char === 'I') {
+                        result += '<span class="char-i">I</span>';
+                    } else if (char === '|') {
+                        result += '<span class="char-pipe">|</span>';
+                    } else {
+                        result += char;
+                    }
+                }
+                return result;
+            }
+
+            const currentPath = window.location.pathname + window.location.search;
+            const cipherPath = document.getElementById('cipherPath');
+            
+            if (currentPath && currentPath !== '/') {
+                const encrypted = encryptToCipher(currentPath);
+                cipherPath.innerHTML = colorizeCipher(encrypted);
+            } else {
+                cipherPath.innerHTML = colorizeCipher('lIIllIllIIllIIl|lIllIIllIIlllII|lIllIIlIllIIllI');
+            }
+
+            console.log('🔐 404 - 这个页面被 lI| 暗语加密了');
+            console.log('  当前路径:', currentPath);
+            console.log('  SZY工具集 - SZY创新工作室');
+            console.log('  试试返回首页解密更多内容吧！');
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' && !e.ctrlKey && !e.metaKey) {
+                    window.location.href = 'index.html';
+                }
+            });
+
+            document.addEventListener('click', function (e) {
+                var el = e.target;
+                while (el && el !== document && el.tagName !== 'A') el = el.parentNode;
+                if (!el || el.tagName !== 'A') return;
+                var href = el.getAttribute('href') || '';
+                if (/^https?:\/\//i.test(href)) {
+                    e.preventDefault();
+                    if (typeof window.plus !== 'undefined' && window.plus.runtime && window.plus.runtime.openURL) {
+                        window.plus.runtime.openURL(href);
+                    } else {
+                        window.open(href, '_blank');
+                    }
+                }
+            }, true);
+
+        })();
+    </script>
+</body>
+</html>

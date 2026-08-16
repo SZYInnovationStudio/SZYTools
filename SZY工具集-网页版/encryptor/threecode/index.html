@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lI|暗语加密器 - SZY加密器</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🔐</text></svg>">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-top">
+                <div class="logo-wrapper">
+                    <span class="logo-char logo-l">S</span>
+                    <span class="logo-char logo-i">Z</span>
+                    <span class="logo-char logo-pipe">Y</span>
+                    <span class="logo-text">加密器</span>
+                </div>
+                <p class="logo-subtitle">lI|暗语加密器 - 将文字隐藏于三种符号之间</p>
+            </div>
+
+            <nav class="sidebar-nav">
+                
+                <button class="nav-btn active" data-mode="encrypt" id="btnEncrypt">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                    <span class="nav-label">🔒 加密</span>
+                    <span class="nav-desc">明文 → 暗语</span>
+                </button>
+                
+                <button class="nav-btn" data-mode="decrypt" id="btnDecrypt">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
+                    </svg>
+                    <span class="nav-label">🔓 解密</span>
+                    <span class="nav-desc">暗语 → 明文</span>
+                </button>
+                <a href="../index.html" class="nav-btn">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    <span class="nav-label">返回SZY加密器</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="https://www.szystudio.cn" target="_blank" rel="noopener noreferrer" class="footer-link studio-link">
+                    <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                    <span>SZY创新工作室 提供技术</span>
+                </a>
+                <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer" class="footer-link beian-link">
+                    <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                    <span>京ICP备2024098823号-4</span>
+                </a>
+                <a href="../../index.html" rel="noopener noreferrer" class="footer-link">
+                    <span>返回主页</span>
+                </a>
+                <a href="../../download.html" rel="noopener noreferrer" class="footer-link">
+                    <span>下载APP</span>
+                </a>
+            </div>
+        </aside>
+
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="菜单">
+            <span></span><span></span><span></span>
+        </button>
+
+        <main class="main-content" id="mainContent">
+            <div class="panel panel-encrypt active" id="panelEncrypt">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <span class="title-icon">🔒</span> 加密明文
+                    </h2>
+                    <p class="panel-subtitle">输入普通文字，转换为由 <code>l</code>、<code>I</code>、<code>|</code> 组成的暗语</p>
+                </div>
+                <div class="panel-body">
+                    <div class="input-group">
+                        <label class="input-label" for="encryptInput">
+                            <span class="label-icon">📝</span> 明文输入
+                            <span class="char-count" id="encryptCharCount">0 字符</span>
+                        </label>
+                        <textarea
+                        id="encryptInput"
+                        class="input-textarea"
+                        placeholder="在此输入需要加密的文字内容...&#10;&#10;支持中文、英文、数字、符号等所有字符"
+                        rows="6"
+                    ></textarea>
+                </div>
+                <div class="action-row">
+                    <button class="btn btn-primary" id="btnDoEncrypt">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        生成暗语
+                    </button>
+                    <button class="btn btn-outline" id="btnClearEncrypt">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                        清空
+                    </button>
+                </div>
+                <div class="output-group" id="encryptOutputGroup" style="display:none;">
+                    <label class="input-label" for="encryptOutput">
+                        <span class="label-icon">🔐</span> 暗语结果
+                        <span class="char-count" id="encryptResultCount">0 字符</span>
+                    </label>
+                    <div class="output-textarea-wrapper">
+                        <textarea
+                        id="encryptOutput"
+                        class="input-textarea output-textarea"
+                        readonly
+                        rows="5"
+                        placeholder="加密结果将显示在这里..."
+                    ></textarea>
+                    <div class="color-legend" id="colorLegendEncrypt" style="display:none;">
+                        <span class="legend-item"><span class="legend-dot dot-l"></span> l = 0</span>
+                        <span class="legend-item"><span class="legend-dot dot-i"></span> I = 1</span>
+                        <span class="legend-item"><span class="legend-dot dot-pipe"></span> | = 分隔符</span>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-copy" id="btnCopyEncrypt" style="display:none;">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    复制暗语
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-decrypt" id="panelDecrypt">
+        <div class="panel-header">
+            <h2 class="panel-title">
+                <span class="title-icon">🔓</span> 解密暗语
+            </h2>
+            <p class="panel-subtitle">输入由 <code>l</code>、<code>I</code>、<code>|</code> 组成的暗语，还原为原始文字</p>
+        </div>
+        <div class="panel-body">
+            <div class="input-group">
+                <label class="input-label" for="decryptInput">
+                    <span class="label-icon">🔐</span> 暗语输入
+                    <span class="char-count" id="decryptCharCount">0 字符</span>
+                </label>
+                <textarea
+                id="decryptInput"
+                class="input-textarea mono-textarea"
+                placeholder="在此粘贴或输入暗语...&#10;&#10;暗语仅由小写字母 l、大写字母 I 和竖线 | 组成"
+                rows="6"
+            ></textarea>
+        </div>
+        <div class="action-row">
+            <button class="btn btn-primary" id="btnDoDecrypt">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
+                </svg>
+                解译暗语
+            </button>
+            <button class="btn btn-outline" id="btnClearDecrypt">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                清空
+            </button>
+        </div>
+        <div class="output-group" id="decryptOutputGroup" style="display:none;">
+            <label class="input-label" for="decryptOutput">
+                <span class="label-icon">📝</span> 解密结果
+                <span class="char-count" id="decryptResultCount">0 字符</span>
+            </label>
+            <textarea
+            id="decryptOutput"
+            class="input-textarea output-textarea"
+            readonly
+            rows="5"
+            placeholder="解密结果将显示在这里..."
+        ></textarea>
+        <button class="btn btn-secondary btn-copy" id="btnCopyDecrypt" style="display:none;">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            复制明文
+        </button>
+    </div>
+    <div class="error-toast" id="errorToast" style="display:none;">
+        <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="15" y1="9" x2="9" y2="15"></line>
+            <line x1="9" y1="9" x2="15" y2="15"></line>
+        </svg>
+        <span id="errorToastMsg">格式错误请检查格式</span>
+    </div>
+</div>
+</main>
+</div>
+<div class="toast" id="toast">
+    <svg class="toast-icon toast-success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+    <span id="toastMsg">已复制到剪贴板</span>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

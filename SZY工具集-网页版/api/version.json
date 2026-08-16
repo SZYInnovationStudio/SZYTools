@@ -1,0 +1,25 @@
+{
+    "name": "SZY工具集",
+    "versionName": "2.5.0",
+    "versionCode": 250,
+    "packageName": "cn.szystudio.szytools",
+    "minSdkVersion": 21,
+    "updateTime": "2026-06-24",
+    "changelog": [
+        {
+            "version": "2.5.0",
+            "date": "2026-06-24",
+            "changes": [
+                "完成H5工具集"
+            ]
+        }
+    ],
+    "download": {
+        "url": "/api/apk/szytools-2.5.0.apk",
+        "size": "4.88 MB",
+        "md5": "a1da9d47ca8eea0abfa79e6680b7f0ba",
+        "sha1": "14707476683631331da46a27276d61575454cb96"
+    },
+    "forceUpdate": false,
+    "updateMessage": "发现新版本！\n\n是否立即下载更新？"
+}

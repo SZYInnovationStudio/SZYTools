@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AES加密 - SZY加密器</title>
+    <link rel="stylesheet" href="../../../encryptor/aes/new/style.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🔐</text></svg>">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-top">
+                <div class="logo-wrapper">
+                    <span class="logo-char logo-l">S</span>
+                    <span class="logo-char logo-i">Z</span>
+                    <span class="logo-char logo-pipe">Y</span>
+                    <span class="logo-text">加密器</span>
+                </div>
+                <p class="logo-subtitle">AES对称加密工具</p>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="../../index.html" class="nav-btn">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    <span class="nav-label">返回SZY加密器</span>
+                </a>
+                <a href="../index.html" class="nav-btn">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    <span class="nav-label">返回旧版界面</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="https://www.szystudio.cn" target="_blank" rel="noopener noreferrer" class="footer-link studio-link">
+                    <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                    <span>SZY创新工作室 提供技术</span>
+                </a>
+                <a href="../../../update.html" rel="noopener noreferrer" class="footer-link beian-link">
+                    <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                    <span>检查更新</span>
+                </a>
+                <a href="../../../about.html" rel="noopener noreferrer" class="footer-link">
+                    <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    <span>关于</span>
+                </a>
+                <a href="../../../index.html" rel="noopener noreferrer" class="footer-link">
+                    <span>返回主页</span>
+                </a>
+            </div>
+        </aside>
+
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="菜单">
+            <span></span><span></span><span></span>
+        </button>
+
+        <main class="main-content" id="mainContent">
+            <div class="panel active" id="panelEncrypt">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <span class="title-icon">🔒</span> AES 加密/解密
+                    </h2>
+                    <p class="panel-subtitle">高级加密标准 · 支持128/192/256位密钥 · CBC模式 · PKCS7填充</p>
+                </div>
+                <div class="panel-body">
+                    <div class="tab-switch">
+                        <button class="tab-btn active" data-tab="aes-encrypt">🔒 加密</button>
+                        <button class="tab-btn" data-tab="aes-decrypt">🔓 解密</button>
+                    </div>
+
+                    <div class="tab-content active" id="aes-encrypt">
+                        <div class="input-group">
+                            <label class="input-label">
+                                <span>🔑 加密密钥</span>
+                                <span class="key-status" id="aesEncryptKeyStatus">需要16/24/32字符</span>
+                            </label>
+                            <div class="key-input-wrapper">
+                                <input type="password" id="aesEncryptKey" class="input-text" placeholder="输入密钥（16/24/32字符）" autocomplete="off">
+                                <button class="btn-key-toggle" id="btnToggleEncryptKey" title="显示/隐藏密钥">👁️</button>
+                                <button class="btn-key-generate" id="btnGenerateKey" title="生成随机密钥">🎲</button>
+                            </div>
+                            <div class="key-strength" id="keyStrengthEncrypt">
+                                <div class="strength-bar"></div>
+                            </div>
+                            <div class="key-info">
+                                <span class="key-info-item" data-bits="128">128位 (16字符)</span>
+                                <span class="key-info-item" data-bits="192">192位 (24字符)</span>
+                                <span class="key-info-item" data-bits="256">256位 (32字符)</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label">
+                                <span>📝 明文输入</span>
+                                <span class="char-count" id="aesEncryptCharCount">0 字符</span>
+                            </label>
+                            <textarea id="aesEncryptInput" class="input-textarea" placeholder="输入要加密的文本内容...&#10;&#10;支持中文、英文、数字、符号等所有字符" rows="5"></textarea>
+                        </div>
+
+                        <div class="action-row">
+                            <button class="btn btn-primary" id="btnAESEncrypt">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                                AES 加密
+                            </button>
+                            <button class="btn btn-outline" id="btnAESEncryptClear">清空</button>
+                        </div>
+
+                        <div class="output-group" id="aesEncryptOutputGroup" style="display:none;">
+                            <label class="input-label">
+                                <span>🔐 加密结果</span>
+                                <span class="char-count" id="aesEncryptResultCount">0 字符</span>
+                            </label>
+                            
+                            <div class="format-tabs">
+                                <button class="format-btn active" data-format="combined" title="IV+密文组合，Base64编码">📦 组合格式</button>
+                                <button class="format-btn" data-format="standard" title="CryptoJS标准格式">📋 标准格式</button>
+                                <button class="format-btn" data-format="separate" title="IV和密文分开显示">📊 分离格式</button>
+                                <button class="format-btn" data-format="hex" title="十六进制格式">🔢 十六进制</button>
+                            </div>
+                            
+                            <textarea id="aesEncryptOutput" class="input-textarea output-textarea" readonly rows="4"></textarea>
+                            
+                            <div class="format-info" id="formatInfo">
+                                <span class="info-icon">ℹ️</span>
+                                <span id="formatDescription">组合格式：IV+密文合并后Base64编码，适用于本工具解密</span>
+                            </div>
+                            
+                            <div class="encrypt-details" id="encryptDetails" style="display:none;">
+                                <div class="detail-item">
+                                    <span class="detail-label">🔑 密钥长度:</span>
+                                    <span class="detail-value" id="detailKeyLength">256位</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">🎲 IV向量:</span>
+                                    <span class="detail-value mono-text" id="detailIV">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">📊 密文长度:</span>
+                                    <span class="detail-value" id="detailCipherLength">0 字节</span>
+                                </div>
+                            </div>
+                            
+                            <div class="output-actions">
+                                <button class="btn btn-secondary" id="btnCopyAESEncrypt">📋 复制结果</button>
+                                <button class="btn btn-secondary" id="btnCopyIV" style="display:none;">📋 复制IV</button>
+                                <button class="btn btn-secondary" id="btnDownloadEncrypt" style="display:none;">💾 下载密文</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="aes-decrypt">
+                        <div class="input-group">
+                            <label class="input-label">
+                                <span>🔑 解密密钥</span>
+                                <span class="key-status" id="aesDecryptKeyStatus">需要16/24/32字符</span>
+                            </label>
+                            <div class="key-input-wrapper">
+                                <input type="password" id="aesDecryptKey" class="input-text" placeholder="输入密钥（16/24/32字符）" autocomplete="off">
+                                <button class="btn-key-toggle" id="btnToggleDecryptKey" title="显示/隐藏密钥">👁️</button>
+                            </div>
+                            <div class="key-strength">
+                                <div class="strength-bar" id="strengthBarDecrypt"></div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label">
+                                <span>🔐 密文输入</span>
+                                <span class="char-count" id="aesDecryptCharCount">0 字符</span>
+                            </label>
+                            <div class="format-tabs decrypt-format-tabs">
+                                <button class="format-btn active" data-decrypt-format="auto" title="自动检测格式">🤖 自动检测</button>
+                                <button class="format-btn" data-decrypt-format="combined" title="IV+密文组合格式">📦 组合格式</button>
+                                <button class="format-btn" data-decrypt-format="standard" title="CryptoJS标准格式">📋 标准格式</button>
+                            </div>
+                            <textarea id="aesDecryptInput" class="input-textarea mono-textarea" placeholder="输入Base64密文进行解密...&#10;&#10;支持组合格式、标准CryptoJS格式" rows="5"></textarea>
+                        </div>
+
+                        <div class="action-row">
+                            <button class="btn btn-primary" id="btnAESDecrypt">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                    <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
+                                </svg>
+                                AES 解密
+                            </button>
+                            <button class="btn btn-outline" id="btnAESDecryptClear">清空</button>
+                        </div>
+
+                        <div class="output-group" id="aesDecryptOutputGroup" style="display:none;">
+                            <label class="input-label">
+                                <span>📝 解密结果</span>
+                                <span class="char-count" id="aesDecryptResultCount">0 字符</span>
+                            </label>
+                            <textarea id="aesDecryptOutput" class="input-textarea output-textarea" readonly rows="4"></textarea>
+                            <div class="output-actions">
+                                <button class="btn btn-secondary" id="btnCopyAESDecrypt">📋 复制结果</button>
+                            </div>
+                        </div>
+
+                        <div class="error-toast" id="aesErrorToast" style="display:none;">
+                            <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="15" y1="9" x2="9" y2="15"></line>
+                                <line x1="9" y1="9" x2="15" y2="15"></line>
+                            </svg>
+                            <span id="aesErrorMsg">解密失败，请检查密钥和密文格式</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast" id="toast">
+        <svg class="toast-icon toast-success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span id="toastMsg">已复制到剪贴板</span>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+    <script src="script.js"></script>
+<script src="../../../back.js"></script></body>
+</html>

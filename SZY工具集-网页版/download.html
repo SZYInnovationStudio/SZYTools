@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>下载 SZY工具集 - 多功能工具集合</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+    </script>
+    <style>
+        :root {
+            --accent: #5b8def;
+            --accent-dark: #4a7de0;
+            --accent-light: #e8f0fe;
+            --accent-glow: rgba(91, 141, 239, 0.25);
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --border: #e5e7eb;
+            --bg: #f8f9fb;
+            --card-bg: #ffffff;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --danger: #ef4444;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.12);
+            --radius: 12px;
+            --radius-lg: 16px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', 'Monaco', 'Menlo', 'Courier New', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
+            background: var(--bg);
+            background-image:
+                linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+            background-size: 22px 22px;
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 0 24px;
+        }
+
+        .navbar-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .nav-logo-chars {
+            display: flex;
+            gap: 2px;
+        }
+
+        .nav-logo-char {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .nav-logo-s {
+            background: #e8f0fe;
+            color: #3b7de0;
+        }
+
+        .nav-logo-z {
+            background: #fde8ec;
+            color: #d94862;
+        }
+
+        .nav-logo-y {
+            background: #e5e7eb;
+            color: #6b7280;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .nav-link {
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all var(--transition);
+        }
+
+        .nav-link:hover {
+            background: var(--accent-light);
+            color: var(--accent);
+        }
+
+        .nav-link.active {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .main-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .hero-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto 24px;
+        }
+
+        .platform-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 8px 0 28px;
+            flex-wrap: wrap;
+            animation: fadeUp 0.5s ease;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .platform-tab {
+            padding: 10px 24px;
+            border-radius: 30px;
+            background: #fff;
+            border: 2px solid var(--border);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            box-shadow: var(--shadow-sm);
+            font-family: inherit;
+        }
+
+        .platform-tab:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .platform-tab.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+            box-shadow: 0 8px 20px var(--accent-glow);
+        }
+
+        .platform-tab .tab-icon {
+            display: flex;
+            align-items: center;
+        }
+
+        .platform-tab .tab-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .download-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-full {
+            grid-column: 1 / -1;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .card-icon.android {
+            background: #d1fae5;
+        }
+
+        .card-icon.windows {
+            background: #e0e7ff;
+        }
+
+        .card-icon.info {
+            background: #e8f0fe;
+        }
+
+        .card-icon.qr {
+            background: #fef3c7;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .card-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .version-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+
+        .info-value {
+            font-size: 0.82rem;
+            font-weight: 600;
+            font-family: var(--font-mono);
+        }
+
+        .info-value.size {
+            color: var(--accent);
+        }
+
+        .info-value.new-badge {
+            background: var(--success-light);
+            color: var(--success);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+        }
+
+        .btn-download {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 14px 24px;
+            border-radius: var(--radius);
+            border: none;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition);
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #5b8def, #4a7de0);
+            color: #fff;
+            box-shadow: 0 4px 16px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(91, 141, 239, 0.4);
+        }
+
+        .btn-secondary {
+            background: #fff;
+            color: var(--text-primary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .download-progress {
+            display: none;
+            margin-top: 12px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 3px;
+            width: 0;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 4px;
+        }
+
+        .verify-section {
+            margin-top: 12px;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: var(--radius);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            word-break: break-all;
+        }
+
+        .verify-label {
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 8px 0;
+        }
+
+        .feature-icon {
+            flex-shrink: 0;
+            margin-top: 2px;
+            display: flex;
+            color: var(--accent);
+        }
+
+        .feature-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .feature-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .feature-text strong {
+            color: var(--text-primary);
+        }
+
+        .changelog {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .changelog-item {
+            display: flex;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--border);
+            font-size: 0.85rem;
+        }
+
+        .changelog-item:last-child {
+            border-bottom: none;
+        }
+
+        .changelog-date {
+            color: var(--text-muted);
+            white-space: nowrap;
+            font-size: 0.75rem;
+            min-width: 70px;
+        }
+
+        .changelog-ver {
+            font-weight: 600;
+            color: var(--accent);
+            white-space: nowrap;
+            min-width: 50px;
+        }
+
+        .changelog-desc {
+            color: var(--text-secondary);
+        }
+
+        .qr-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .qr-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: #fff;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            position: relative;
+            min-height: 240px;
+        }
+
+        .qr-loading {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--radius);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .qr-info {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .qr-info strong {
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            word-break: break-all;
+        }
+
+        .qr-tip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            color: var(--accent);
+            background: var(--accent-light);
+            padding: 8px 14px;
+            border-radius: 20px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%) translateY(120px);
+            background: #1f2937;
+            color: #fff;
+            padding: 12px 22px;
+            border-radius: 30px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 9999;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 32px 24px;
+            border-top: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.5);
+            margin-top: 40px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+
+        .footer-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.75rem;
+            transition: color var(--transition);
+        }
+
+        .footer-link:hover {
+            color: var(--accent);
+        }
+
+        .footer-copy {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        @keyframes cardSwitchIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-switch-animation {
+            animation: cardSwitchIn 0.35s ease;
+        }
+
+        @media (max-width: 768px) {
+            .download-section {
+                grid-template-columns: 1fr;
+            }
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            .navbar-inner {
+                height: 50px;
+            }
+            .nav-links {
+                gap: 4px;
+            }
+            .nav-link {
+                padding: 6px 10px;
+                font-size: 0.75rem;
+            }
+            .platform-tab {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 20px 12px;
+            }
+            .card {
+                padding: 20px 16px;
+            }
+            .hero-title {
+                font-size: 1.5rem;
+            }
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="/" class="nav-logo">
+                <span class="nav-logo-chars">
+                    <span class="nav-logo-char nav-logo-s">S</span>
+                    <span class="nav-logo-char nav-logo-z">Z</span>
+                    <span class="nav-logo-char nav-logo-y">Y</span>
+                </span>
+                工具集
+            </a>
+            <div class="nav-links">
+                <a href="/" class="nav-link">首页</a>
+                <a href="download.html" class="nav-link active">下载</a>
+                <a href="mailto:support@szystudio.cn" class="nav-link">反馈</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="hero">
+            <span class="hero-badge" id="heroBadge">Android App</span>
+            <h1 class="hero-title">下载 SZY工具集</h1>
+            <p class="hero-desc">多功能工具集合，支持多算法暗语安全加密等功能</p>
+        </div>
+
+        <div class="platform-tabs">
+            <button class="platform-tab active" id="tabAndroid" data-platform="android">
+                <span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="8" width="10" height="10" rx="2"></rect><path d="M9 4v3M15 4v3"></path><circle cx="10" cy="12" r="0.5" fill="currentColor"></circle><circle cx="14" cy="12" r="0.5" fill="currentColor"></circle></svg></span> Android 版本
+            </button>
+            <button class="platform-tab" id="tabWindows" data-platform="windows">
+                <span class="tab-icon"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="8" height="8" rx="1"></rect><rect x="13" y="3" width="8" height="8" rx="1"></rect><rect x="3" y="13" width="8" height="8" rx="1"></rect><rect x="13" y="13" width="8" height="8" rx="1"></rect></svg></span> Windows 桌面版
+            </button>
+        </div>
+
+        <div class="download-section">
+            <div class="card" id="downloadCard">
+                <div class="card-header">
+                    <div class="card-icon android" id="cardIcon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="8" width="10" height="10" rx="2"></rect><path d="M9 4v3M15 4v3"></path><circle cx="10" cy="12" r="0.5" fill="currentColor"></circle><circle cx="14" cy="12" r="0.5" fill="currentColor"></circle></svg></div>
+                    <div>
+                        <div class="card-title" id="cardTitle">Android 安装包</div>
+                        <div class="card-subtitle" id="latestVersion">加载中...</div>
+                    </div>
+                </div>
+
+                <div class="version-info" id="versionInfo">
+                    <div class="info-row">
+                        <span class="info-label">版本号</span>
+                        <span class="info-value" id="infoVersion">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">文件大小</span>
+                        <span class="info-value size" id="infoSize">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">最低系统</span>
+                        <span class="info-value" id="infoSystem">Android 5.0+</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">更新日期</span>
+                        <span class="info-value" id="infoDate">-</span>
+                    </div>
+                </div>
+
+                <button class="btn-download btn-primary" id="btnDownload">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span id="btnDownloadText">立即下载 APK</span>
+                </button>
+
+                <div class="download-progress" id="downloadProgress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">准备下载...</div>
+                </div>
+
+                <div class="verify-section" id="verifySection" style="display:none;">
+                    <div class="verify-label">文件校验信息</div>
+                    <div style="margin-bottom:4px;">MD5: <span id="verifyMD5">-</span></div>
+                    <div style="margin-bottom:4px;">SHA-1: <span id="verifySHA1">-</span></div>
+                    <div style="font-size:0.7rem;color:var(--text-muted);">下载后请校验哈希值确保文件完整性</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"></path></svg></div>
+                    <div>
+                        <div class="card-title">功能特性</div>
+                        <div class="card-subtitle">多种功能支持</div>
+                    </div>
+                </div>
+
+                <div class="features">
+                    <div class="feature-item">
+                        <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="9" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg></span>
+                        <span class="feature-text"><strong>个性暗语加密</strong><br>文字隐藏于个性文字之间</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg></span>
+                        <span class="feature-text"><strong>哈希计算/AES加密/Base64转码</strong><br>多种常用加密/编码方式整合</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"></rect><line x1="11" y1="18" x2="13" y2="18"></line></svg></span>
+                        <span class="feature-text"><strong>Material Design</strong><br>现代化界面设计</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><polyline points="21 3 21 9 15 9"></polyline></svg></span>
+                        <span class="feature-text"><strong>自动更新</strong><br>检查新版本及时更新</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-full">
+                <div class="card-header">
+                    <div class="card-icon qr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><path d="M14 14h3v3h-3z"></path><path d="M21 14v0M14 21v0M21 21v0"></path></svg></div>
+                    <div>
+                        <div class="card-title">扫码下载</div>
+                        <div class="card-subtitle">手机扫描二维码直接下载安装</div>
+                    </div>
+                </div>
+                <div class="qr-section">
+                    <div class="qr-container" id="qrContainer">
+                        <div class="qr-loading" id="qrLoading">
+                            <span>正在生成二维码...</span>
+                        </div>
+                    </div>
+                    <div class="qr-info">
+                        <div style="margin-bottom:4px;">下载链接</div>
+                        <strong id="qrUrl">-</strong>
+                    </div>
+                    <div class="qr-tip">
+                        <span>使用手机相机或浏览器扫描二维码</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-full">
+                <div class="card-header">
+                    <div class="card-icon info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg></div>
+                    <div>
+                        <div class="card-title">本次更新日志</div>
+                        <div class="card-subtitle" id="changelogTitle">共一个版本</div>
+                        <div class="card-subtitle"><a href="changelog.html">点击查看历史版本信息</a></div>
+                    </div>
+                </div>
+                <div class="changelog" id="changelogContainer">
+                    <div class="changelog-item">
+                        <span class="changelog-date">-</span>
+                        <span class="changelog-ver">-</span>
+                        <span class="changelog-desc">加载中...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="https://www.szystudio.cn" class="footer-link">SZY创新工作室</a>
+            <a href="https://beian.miit.gov.cn/" class="footer-link">京ICP备2024098823号-4</a>
+            <a href="/" class="footer-link">返回首页</a>
+        </div>
+        <p class="footer-copy">&copy; 2026 SZY创新工作室. All rights reserved.</p>
+    </footer>
+
+    <div class="toast" id="toast">
+        <span id="toastMsg"></span>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            const API_URLS = {
+                android: 'api/version.json',
+                windows: 'api/windows-version.json'
+            };
+
+            let currentPlatform = 'android';
+
+            let platformDataCache = {
+                android: null,
+                windows: null
+            };
+
+            let appInfo = null;
+            let toastTimer = null;
+            let isDownloading = false;
+            let downloadInterval = null;
+
+            function getDownloadUrl(url) {
+                if (url.startsWith('http://') || url.startsWith('https://')) {
+                    return url;
+                }
+                const baseUrl = window.location.origin;
+                if (!url.startsWith('/')) {
+                    url = '/' + url;
+                }
+                return baseUrl + url;
+            }
+
+            function getApiUrl() {
+                return API_URLS[currentPlatform];
+            }
+
+            function getFallbackData(platform) {
+                if (platform === 'android') {
+                    return {
+                        versionName: '2.3.0',
+                        versionCode: 21,
+                        updateTime: '2026-06-20',
+                        platform: 'android',
+                        download: {
+                            url: 'api/apk/szytools-2.3.0.apk',
+                            size: '4.87 MB',
+                            md5: 'a1b2c3d4e5f6789012345678abcdef01',
+                            sha1: 'b2c3d4e5f6789012345678abcdef0123456789a'
+                        },
+                        changelog: [
+                            { date: '2026-06-24', version: '2.3.0', changes: ['暂无更新日志'] }
+                        ]
+                    };
+                } else {
+                    return {
+                        versionName: '2.3.0',
+                        versionCode: 21,
+                        updateTime: '2026-06-20',
+                        platform: 'android',
+                        download: {
+                            url: 'api/exe/szytools-2.3.0.exe',
+                            size: '4.87 MB',
+                            md5: 'a1b2c3d4e5f6789012345678abcdef01',
+                            sha1: 'b2c3d4e5f6789012345678abcdef0123456789a'
+                        },
+                        changelog: [
+                            { date: '2026-06-24', version: '2.3.0', changes: ['暂无更新日志'] }
+                        ]
+                    };
+                }
+            }
+
+            async function loadVersionInfo(platform) {
+                if (platformDataCache[platform]) {
+                    appInfo = platformDataCache[platform];
+                    renderVersionInfo();
+                    return;
+                }
+
+                const apiUrl = API_URLS[platform];
+                try {
+                    const response = await fetch(apiUrl);
+                    if (!response.ok) throw new Error('无法获取版本信息');
+                    appInfo = await response.json();
+                    platformDataCache[platform] = appInfo;
+                    renderVersionInfo();
+                } catch (error) {
+                    console.error('加载版本信息失败，使用回退数据:', error.message);
+                    appInfo = getFallbackData(platform);
+                    platformDataCache[platform] = appInfo;
+                    renderVersionInfo();
+                }
+            }
+
+            function renderVersionInfo() {
+                if (!appInfo) return;
+
+                const downloadUrl = getDownloadUrl(appInfo.download.url);
+                const isAndroid = currentPlatform === 'android';
+
+                console.log('下载URL (' + currentPlatform + '):', downloadUrl);
+
+                document.getElementById('heroBadge').textContent = isAndroid ? 'Android App' : 'Windows Desktop';
+
+                const cardIcon = document.getElementById('cardIcon');
+                cardIcon.className = 'card-icon ' + (isAndroid ? 'android' : 'windows');
+                cardIcon.innerHTML = isAndroid ?
+                    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="8" width="10" height="10" rx="2"></rect><path d="M9 4v3M15 4v3"></path><circle cx="10" cy="12" r="0.5" fill="currentColor"></circle><circle cx="14" cy="12" r="0.5" fill="currentColor"></circle></svg>' :
+                    '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="8" height="8" rx="1"></rect><rect x="13" y="3" width="8" height="8" rx="1"></rect><rect x="3" y="13" width="8" height="8" rx="1"></rect><rect x="13" y="13" width="8" height="8" rx="1"></rect></svg>';
+
+                document.getElementById('cardTitle').textContent = isAndroid ? 'Android 安装包' : 'Windows 安装包';
+
+                document.getElementById('latestVersion').textContent =
+                    'v' + appInfo.versionName + ' (Build ' + appInfo.versionCode + ')';
+                document.getElementById('infoVersion').innerHTML =
+                    'v' + appInfo.versionName + ' <span class="new-badge">最新</span>';
+                document.getElementById('infoSize').textContent = appInfo.download.size;
+                document.getElementById('infoDate').textContent = appInfo.updateTime;
+                document.getElementById('infoSystem').textContent = isAndroid ? 'Android 5.0+' : 'Windows 10/11';
+
+                document.getElementById('verifyMD5').textContent = appInfo.download.md5 || '-';
+                document.getElementById('verifySHA1').textContent = appInfo.download.sha1 || '-';
+                document.getElementById('verifySection').style.display = 'block';
+
+                document.getElementById('btnDownloadText').textContent = isAndroid ? '立即下载 APK' : '立即下载 EXE';
+
+                resetDownloadState();
+
+                renderChangelog();
+
+                const qrUrl = isAndroid ? downloadUrl : getDownloadUrl(
+                    platformDataCache['android']?.download?.url || '/app-release.apk'
+                );
+                generateQRCode(qrUrl);
+
+                document.title = '下载 SZY工具集 v' + appInfo.versionName + ' (' + (isAndroid ? 'Android' : 'Windows') +
+                    ')';
+
+                const downloadCard = document.getElementById('downloadCard');
+                downloadCard.classList.remove('card-switch-animation');
+                void downloadCard.offsetWidth; 
+                downloadCard.classList.add('card-switch-animation');
+            }
+
+            function resetDownloadState() {
+                if (downloadInterval) {
+                    clearInterval(downloadInterval);
+                    downloadInterval = null;
+                }
+                isDownloading = false;
+                const progressDiv = document.getElementById('downloadProgress');
+                const progressFill = document.getElementById('progressFill');
+                const progressText = document.getElementById('progressText');
+                const btnDownload = document.getElementById('btnDownload');
+                const isAndroid = currentPlatform === 'android';
+
+                progressDiv.style.display = 'none';
+                progressFill.style.width = '0';
+                progressText.textContent = '准备下载...';
+                btnDownload.disabled = false;
+                btnDownload.style.opacity = '1';
+                btnDownload.innerHTML = `
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span id="btnDownloadText">${isAndroid ? '立即下载 APK' : '立即下载 EXE'}</span>
+                `;
+            }
+
+            function renderChangelog() {
+                const container = document.getElementById('changelogContainer');
+
+                if (!appInfo.changelog || appInfo.changelog.length === 0) {
+                    container.innerHTML =
+                        '<div class="changelog-item"><span class="changelog-desc">暂无更新日志</span></div>';
+                    return;
+                }
+
+                let html = '';
+                appInfo.changelog.forEach(log => {
+                    log.changes.forEach(change => {
+                        html += `
+                            <div class="changelog-item">
+                                <span class="changelog-date">${log.date}</span>
+                                <span class="changelog-ver">v${log.version}</span>
+                                <span class="changelog-desc">${change}</span>
+                            </div>
+                        `;
+                    });
+                });
+                container.innerHTML = html;
+                document.getElementById('changelogTitle').textContent = '共 ' + appInfo.changelog.length +
+                    ' 个版本';
+            }
+
+            function generateQRCode(url) {
+                const qrContainer = document.getElementById('qrContainer');
+                const qrLoading = document.getElementById('qrLoading');
+                const qrUrlDisplay = document.getElementById('qrUrl');
+
+                qrUrlDisplay.textContent = url;
+
+                if (typeof QRCode === 'undefined') {
+                    if (qrLoading) qrLoading.innerHTML = '<span style="color:#ef4444;">二维码库加载失败</span>';
+                    return;
+                }
+
+                try {
+                    if (qrLoading) qrLoading.style.display = 'none';
+                    qrContainer.querySelectorAll('canvas, img').forEach(el => el.remove());
+
+                    new QRCode(qrContainer, {
+                        text: url,
+                        width: 200,
+                        height: 200,
+                        colorDark: '#1f2937',
+                        colorLight: '#ffffff',
+                        correctLevel: QRCode.CorrectLevel.M
+                    });
+
+                    console.log('二维码生成成功');
+                } catch (error) {
+                    console.error('二维码生成失败:', error);
+                    if (qrLoading) {
+                        qrLoading.innerHTML = '<span style="color:#ef4444;">生成失败</span>';
+                        qrLoading.style.display = 'flex';
+                    }
+                }
+            }
+
+            window.startDownload = function() {
+                if (isDownloading) return;
+                if (!appInfo) return;
+
+                isDownloading = true;
+                const downloadUrl = getDownloadUrl(appInfo.download.url);
+
+                const progressDiv = document.getElementById('downloadProgress');
+                const progressFill = document.getElementById('progressFill');
+                const progressText = document.getElementById('progressText');
+                const btnDownload = document.getElementById('btnDownload');
+
+                progressDiv.style.display = 'block';
+                btnDownload.disabled = true;
+                btnDownload.style.opacity = '0.6';
+                btnDownload.textContent = '正在下载...';
+
+                let progress = 0;
+                downloadInterval = setInterval(() => {
+                    progress += Math.random() * 20;
+                    if (progress >= 90) {
+                        progress = 90;
+                        clearInterval(downloadInterval);
+                        downloadInterval = null;
+                    }
+                    progressFill.style.width = progress + '%';
+                    progressText.textContent = '正在下载... ' + Math.round(progress) + '%';
+                }, 300);
+
+                setTimeout(() => {
+                    const iframe = document.createElement('iframe');
+                    iframe.style.display = 'none';
+                    iframe.src = downloadUrl;
+                    document.body.appendChild(iframe);
+
+                    setTimeout(() => {
+                        document.body.removeChild(iframe);
+                    }, 5000);
+
+                    if (downloadInterval) {
+                        clearInterval(downloadInterval);
+                        downloadInterval = null;
+                    }
+                    progressFill.style.width = '100%';
+                    progressText.textContent = '下载已开始！';
+
+                    showToast('下载已开始，请查看浏览器下载列表');
+
+                    setTimeout(() => {
+                        progressDiv.style.display = 'none';
+                        progressFill.style.width = '0';
+                        progressText.textContent = '准备下载...';
+                        btnDownload.disabled = false;
+                        btnDownload.style.opacity = '1';
+                        const isAndroid = currentPlatform === 'android';
+                        btnDownload.innerHTML = `
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            ${isAndroid ? '立即下载 APK' : '立即下载 EXE'}
+                        `;
+                        isDownloading = false;
+                    }, 2000);
+                }, 1000);
+            };
+
+            document.getElementById('btnDownload').addEventListener('click', function() {
+                window.startDownload();
+            });
+
+            function switchPlatform(platform) {
+                if (currentPlatform === platform) return;
+                if (isDownloading) {
+                    showToast('请等待当前下载完成后再切换平台');
+                    return;
+                }
+
+                currentPlatform = platform;
+
+                document.getElementById('tabAndroid').classList.toggle('active', platform === 'android');
+                document.getElementById('tabWindows').classList.toggle('active', platform === 'windows');
+
+                loadVersionInfo(platform);
+            }
+
+            document.getElementById('tabAndroid').addEventListener('click', function() {
+                switchPlatform('android');
+            });
+
+            document.getElementById('tabWindows').addEventListener('click', function() {
+                switchPlatform('windows');
+            });
+
+            function showToast(message) {
+                const toast = document.getElementById('toast');
+                const toastMsg = document.getElementById('toastMsg');
+
+                if (toastTimer) clearTimeout(toastTimer);
+                toastMsg.textContent = message;
+                toast.classList.add('show');
+                toastTimer = setTimeout(() => {
+                    toast.classList.remove('show');
+                    toastTimer = null;
+                }, 2500);
+            }
+
+            loadVersionInfo('android');
+
+            console.log('SZY工具集 - 下载页面已就绪');
+        })();
+    </script>
+</body>
+</html>

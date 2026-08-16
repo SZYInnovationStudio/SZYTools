@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于 - SZY工具集</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        :root {
+            --bg: #f8f9fb;
+            --card-bg: #ffffff;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --accent: #5b8def;
+            --accent-dark: #4a7de0;
+            --accent-light: #e8f0fe;
+            --accent-glow: rgba(91, 141, 239, 0.15);
+            --border: #e5e7eb;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.12);
+            --radius-sm: 8px;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', 'Monaco', 'Menlo', 'Courier New', monospace;
+            --grid-color: rgba(0, 0, 0, 0.04);
+            --grid-size: 22px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
+            background-color: var(--bg);
+            background-image:
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: var(--grid-size) var(--grid-size);
+            background-position: -1px -1px;
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--accent);
+            transition: color var(--transition);
+        }
+
+        a:hover {
+            color: var(--accent-dark);
+        }
+
+        .app-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-header {
+            text-align: center;
+            padding: 48px 24px 32px;
+            background: linear-gradient(180deg, rgba(91, 141, 239, 0.05) 0%, transparent 100%);
+        }
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .logo-char {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 2rem;
+            font-weight: 700;
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            transition: transform var(--transition);
+        }
+
+        .logo-l {
+            background: #e8f0fe;
+            color: #3b7de0;
+        }
+
+        .logo-i {
+            background: #fde8ec;
+            color: #d94862;
+        }
+
+        .logo-pipe {
+            background: #e5e7eb;
+            color: #6b7280;
+            font-size: 1.6rem;
+        }
+
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-left: 8px;
+            letter-spacing: 1px;
+        }
+
+        .logo-en-name {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+            font-family: var(--font-mono);
+            letter-spacing: 2px;
+        }
+
+        .logo-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 12px;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 24px 24px 48px;
+            max-width: 680px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .about-section {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 28px 24px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 20px;
+            animation: fadeInUp 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        .about-section:nth-child(1) { animation-delay: 0.1s; }
+        .about-section:nth-child(2) { animation-delay: 0.2s; }
+        .about-section:nth-child(3) { animation-delay: 0.3s; }
+        .about-section:nth-child(4) { animation-delay: 0.4s; }
+        .about-section:nth-child(5) { animation-delay: 0.5s; }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            color: var(--accent);
+        }
+
+        .info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.9rem;
+        }
+
+        .info-label {
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+
+        .info-value {
+            color: var(--text-primary);
+            font-weight: 500;
+            text-align: right;
+            word-break: break-all;
+        }
+
+        .info-value a {
+            color: var(--accent);
+        }
+
+        .info-value a:hover {
+            color: var(--accent-dark);
+        }
+
+        .sdk-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            background: #f9fafb;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+        }
+
+        .sdk-type {
+            color: var(--text-secondary);
+            flex-shrink: 0;
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            background: var(--accent-light);
+            color: var(--accent);
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .sdk-name {
+            color: var(--text-primary);
+            font-weight: 500;
+            text-align: right;
+        }
+
+        .sdk-name a {
+            color: var(--accent);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .action-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 20px;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all var(--transition);
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .action-btn-primary {
+            background: var(--accent);
+            color: #ffffff;
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        .action-btn-primary:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--accent-glow);
+            color: #ffffff;
+        }
+
+        .action-btn-outline {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        .action-btn-outline:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-icon {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        .beian-info {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        .copyright {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            padding: 24px 16px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .main-header {
+                padding: 32px 16px 24px;
+            }
+
+            .main-content {
+                padding: 16px;
+            }
+
+            .about-section {
+                padding: 20px 16px;
+            }
+
+            .logo-char {
+                width: 36px;
+                height: 36px;
+                font-size: 1.5rem;
+            }
+
+            .logo-text {
+                font-size: 1.1rem;
+            }
+
+            .info-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+
+            .info-value {
+                text-align: left;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="main-header">
+            <div class="logo-wrapper">
+                <span class="logo-char logo-l">S</span>
+                <span class="logo-char logo-i">Z</span>
+                <span class="logo-char logo-pipe">Y</span>
+                <span class="logo-text">工具集</span>
+            </div>
+            <div class="logo-en-name">SZYTools</div>
+            <p class="logo-subtitle">多功能工具集合</p>
+        </header>
+
+        <main class="main-content">
+            <section class="about-section">
+                <h2 class="section-title">
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    应用信息
+                </h2>
+                <div class="info-list">
+                    <div class="info-item">
+                        <span class="info-label">应用名称</span>
+                        <span class="info-value">SZY工具集</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">英文名称</span>
+                        <span class="info-value">SZYTools</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">版本号</span>
+                        <span class="info-value">v5.1.0</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">打包日期</span>
+                        <span class="info-value">2026-07-11</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="about-section">
+                <h2 class="section-title">
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    开发者信息
+                </h2>
+                <div class="info-list">
+                    <div class="info-item">
+                        <span class="info-label">开发者</span>
+                        <span class="info-value">SZY创新工作室</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">官方网站</span>
+                        <span class="info-value"><a href="https://www.szystudio.cn" target="_blank" rel="noopener noreferrer">www.szystudio.cn</a></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">联系邮箱</span>
+                        <span class="info-value"><a href="mailto:support@szystudio.cn">support@szystudio.cn</a></span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="about-section">
+                <h2 class="section-title">
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                    备案信息
+                </h2>
+                <div class="info-list">
+                    <div class="info-item">
+                        <span class="info-label">应用备案号</span>
+                        <span class="info-value">京ICP备2024098823号-5A</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="about-section">
+                <h2 class="section-title">
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                    第三方SDK
+                </h2>
+                <div class="info-list">
+                    <div class="sdk-item">
+                        <span class="sdk-type">框架类</span>
+                        <span class="sdk-name"><a href="https://www.dcloud.io/" target="_blank" rel="noopener noreferrer">数字天堂（北京）网络技术有限公司</a></span>
+                    </div>
+                    <div class="sdk-item">
+                        <span class="sdk-type">统计类</span>
+                        <span class="sdk-name"><a href="https://www.dcloud.io/" target="_blank" rel="noopener noreferrer">数字天堂（北京）网络技术有限公司</a></span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="about-section">
+                <h2 class="section-title">
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                    相关协议
+                </h2>
+                <div class="info-list">
+                    <div class="info-item">
+                        <span class="info-label">隐私政策</span>
+                        <span class="info-value"><a href="https://tools.szystudio.cn/privacy.html" target="_blank" rel="noopener noreferrer">查看隐私政策 →</a></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">服务协议</span>
+                        <span class="info-value"><a href="https://tools.szystudio.cn/terms.html" target="_blank" rel="noopener noreferrer">查看服务协议 →</a></span>
+                    </div>
+                </div>
+            </section>
+
+            <div class="action-buttons">
+                <a href="update.html" class="action-btn action-btn-outline">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path>
+                        <path d="M21 3v5h-5"></path>
+                    </svg>
+                    检查更新
+                </a>
+                <a href="index.html" class="action-btn action-btn-primary">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    返回首页
+                </a>
+            </div>
+        </main>
+
+        <div class="copyright">
+            ©2026 SZY创新工作室 保留所有权利
+        </div>
+    </div>
+    <script src="back.js"></script>
+</body>
+</html>

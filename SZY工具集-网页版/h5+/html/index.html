@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML工具 - H5+工具集</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🛠️</text></svg>">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-top">
+                <div class="logo-wrapper">
+                    <span class="logo-char logo-l">H</span>
+                    <span class="logo-char logo-i">5</span>
+                    <span class="logo-char logo-pipe">+</span>
+                    <span class="logo-text">工具集</span>
+                </div>
+                <p class="logo-subtitle">HTML工具 - HTML代码格式化、纠错与混淆</p>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" data-mode="format" id="btnFormat">格式化</button>
+                <button class="nav-btn" data-mode="validate" id="btnValidate">纠错检查</button>
+                <button class="nav-btn" data-mode="obfuscate" id="btnObfuscate">可逆混淆</button>
+                <a href="../index.html" class="nav-btn">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    <span class="nav-label">返回H5+工具集</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="https://www.szystudio.cn" target="_blank" rel="noopener noreferrer" class="footer-link studio-link">
+                    <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                    <span>SZY创新工作室 提供技术</span>
+                </a>
+                <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer" class="footer-link beian-link">
+                    <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                    <span>京ICP备2024098823号-4</span>
+                </a>
+                <a href="../../index.html" rel="noopener noreferrer" class="footer-link">
+                    <span>返回主页</span>
+                </a>
+                <a href="../../download.html" rel="noopener noreferrer" class="footer-link">
+                    <span>下载APP</span>
+                </a>
+            </div>
+        </aside>
+
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="菜单">
+            <span></span><span></span><span></span>
+        </button>
+
+        <main class="main-content" id="mainContent">
+            <div class="panel" id="panelFormat">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <span class="title-icon">📝</span> 格式化 HTML
+                    </h2>
+                    <p class="panel-subtitle">自动缩进对齐，让HTML代码结构清晰可读</p>
+                </div>
+                <div class="panel-body">
+                    <div class="input-group">
+                        <label class="input-label">
+                            <span>HTML 源代码</span>
+                        </label>
+                        <textarea id="htmlInput" class="code-area" placeholder="在此粘贴 HTML 代码..." rows="12"></textarea>
+                    </div>
+                    <div class="action-row">
+                        <button class="btn btn-primary" id="btnDoFormat">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="16 18 22 12 16 6"></polyline>
+                            </svg>
+                            格式化
+                        </button>
+                        <button class="btn btn-outline" id="btnClearFormat">清空</button>
+                        <button class="btn btn-outline" id="btnDemoFormat">示例</button>
+                    </div>
+                    <div class="output-group" id="formatOutputGroup" style="display:none;">
+                        <label class="input-label">
+                            <span>格式化结果</span>
+                            <span class="char-count" id="formatCharCount">0 字符</span>
+                        </label>
+                        <textarea id="formatOutput" class="code-area output-area" readonly rows="12"></textarea>
+                        <div class="output-actions">
+                            <button class="btn btn-secondary" id="btnCopyFormat">📋 复制结果</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel" id="panelValidate" style="display:none;">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <span class="title-icon">🔍</span> HTML 纠错检查
+                    </h2>
+                    <p class="panel-subtitle">检测标签未闭合、属性错误等常见问题</p>
+                </div>
+                <div class="panel-body">
+                    <div class="input-group">
+                        <label class="input-label">
+                            <span>HTML 源代码</span>
+                        </label>
+                        <textarea id="htmlValidateInput" class="code-area" placeholder="在此粘贴 HTML 代码..." rows="12"></textarea>
+                    </div>
+                    <div class="action-row">
+                        <button class="btn btn-primary" id="btnDoValidate">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="22 12 18 8 16 12"></polyline>
+                                <polyline points="16 12 18 16 22 12"></polyline>
+                                <line x1="2" y1="12" x2="14" y2="12"></line>
+                            </svg>
+                            检查纠错
+                        </button>
+                        <button class="btn btn-outline" id="btnClearValidate">清空</button>
+                    </div>
+                    <div class="output-group" id="validateOutputGroup" style="display:none;">
+                        <label class="input-label">
+                            <span>检查结果</span>
+                        </label>
+                        <div id="validateOutput" class="validate-output"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel" id="panelObfuscate" style="display:none;">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <span class="title-icon">🔒</span> HTML 可逆混淆
+                    </h2>
+                    <p class="panel-subtitle">生成自解码HTML页面，双击即可在浏览器中查看原始内容</p>
+                </div>
+                <div class="panel-body">
+                    <div class="input-group">
+                        <label class="input-label">
+                            <span>HTML 源代码</span>
+                        </label>
+                        <textarea id="htmlObInput" class="code-area" placeholder="在此粘贴 HTML 代码..." rows="10"></textarea>
+                    </div>
+                    <div class="action-row">
+                        <button class="btn btn-primary" id="btnDoOb">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                            混淆
+                        </button>
+                        <button class="btn btn-outline" id="btnClearOb">清空</button>
+                    </div>
+                    <div class="output-group" id="obOutputGroup" style="display:none;">
+                        <label class="input-label">
+                            <span>混淆结果</span>
+                            <span class="char-count" id="obCharCount">0 字符</span>
+                        </label>
+                        <textarea id="obOutput" class="code-area output-area" readonly rows="8"></textarea>
+                        <div class="output-actions">
+                            <button class="btn btn-secondary" id="btnCopyOb">📋 复制结果</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast" id="toast">
+        <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span id="toastMsg"></span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

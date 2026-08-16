@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>图片转Base64 - SZY工具集</title><link rel="stylesheet" href="../../text/case_convert/style.css"><link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>B64</text></svg>"></head>
+<body><div class="app-container">
+<aside class="sidebar" id="sidebar"><div class="sidebar-top"><div class="logo-wrapper"><span class="logo-char logo-l">B6</span><span class="logo-char logo-pipe">4</span><span class="logo-text">编码</span></div><p class="logo-subtitle">图片转 Base64 编码</p></div>
+<nav class="sidebar-nav"><a href="../../convert/index.html" class="nav-btn"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><span class="nav-label">返回格式转换</span></a></nav>
+            <div class="sidebar-footer">
+                <a href="https://www.szystudio.cn" target="_blank" rel="noopener noreferrer" class="footer-link studio-link">
+                    <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                    <span>SZY创新工作室 提供技术</span>
+                </a>
+                <a href="../../update.html" rel="noopener noreferrer" class="footer-link beian-link">
+                    <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                    <span>检查更新</span>
+                </a>
+                <a href="../../about.html" rel="noopener noreferrer" class="footer-link">
+                    <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    <span>关于</span>
+                </a>
+                <a href="../../index.html" rel="noopener noreferrer" class="footer-link">
+                    <span>返回主页</span>
+                </a>
+            </div></aside>
+<button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="菜单"><span></span><span></span><span></span></button>
+<main class="main-content" id="mainContent"><div class="panel"><div class="panel-header"><h2 class="panel-title"><span class="title-icon">B64</span> 图片转 Base64</h2><p class="panel-subtitle">上传图片文件，转换为 Base64 编码字符串</p></div><div class="panel-body">
+<div class="input-group"><label class="input-label"><span>📁 选择图片</span></label><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;"><label for="fileInput" class="btn btn-outline" style="cursor:pointer;"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>选择图片</label><input type="file" id="fileInput" accept="image/*" style="display:none;"><span style="font-size:0.8rem;color:var(--text-muted);">支持 PNG / JPG / WebP 等</span></div></div>
+<div id="previewContainer" style="text-align:center;"><img id="preview" style="max-width:200px;max-height:200px;display:none;border-radius:8px;border:2px solid var(--border);"></div>
+<div class="output-group" id="outputGroup" style="display:none;"><label class="input-label"><span>Base64 编码</span></label><textarea id="txtOutput" class="code-area" readonly rows="4" style="word-break:break-all;"></textarea><div class="output-actions"><button class="btn btn-outline" id="btnClear">清空</button><button class="btn btn-secondary" id="btnCopy">📋 复制</button></div></div>
+</div></div></main></div>
+<div class="toast" id="toast"><svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg><span id="toastMsg">已复制到剪贴板</span></div>
+<script src="script.js"></script><script src="../../back.js"></script></body></html>

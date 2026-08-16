@@ -1,0 +1,43 @@
+{
+    "version" : "6",
+    "prompt" : "template",
+    "title" : "SZY工具集服务协议和隐私政策",
+    "message" : "　　请你务必审慎阅读、充分理解“服务协议”和“隐私政策”各条款，包括但不限于：为了更好的向你提供服务，我们需要收集你的设备标识、操作日志等信息用于分析、优化应用性能。<br/>　　你可阅读<a href=\"https://tools.szystudio.cn/terms.html\">《服务协议》</a>和<a href=\"https://tools.szystudio.cn/privacy.html\">《隐私政策》</a>了解详细信息。如果你同意，请点击下面按钮开始接受我们的服务。",
+    "buttonAccept" : "同意并接受",
+    "buttonRefuse" : "暂不同意",
+    "hrefLoader" : "system",
+    "backToExit" : "false",
+    "second" : {
+        "title" : "确认提示",
+        "message" : "　　进入应用前，你需先同意<a href=\"https://tools.szystudio.cn/terms.html\">《服务协议》</a>和<a href=\"https://tools.szystudio.cn/privacy.html\">《隐私政策》</a>，否则你将只能使用基础功能模式。",
+        "buttonAccept" : "同意并继续",
+        "buttonRefuse" : "使用基础功能模式"
+    },
+    "disagreeMode" : {
+        "support" : true,
+        "loadNativePlugins" : false,
+        "visitorEntry" : false,
+        "showAlways" : false
+    },
+    "styles" : {
+        "backgroundColor" : "#E3F2FD",
+        "borderRadius" : "12px",
+        "title" : {
+            "color" : "#1A1A1A"
+        },
+        "message" : {
+            "color" : "#333333"
+        },
+        "buttonAccept" : {
+            "color" : "#FFFFFF",
+            "backgroundColor" : "#1976D2",
+            "borderRadius" : "8px"
+        },
+        "buttonRefuse" : {
+            "color" : "#1976D2",
+            "backgroundColor" : "#FFFFFF",
+            "borderRadius" : "8px",
+            "border" : "1px solid #1976D2"
+        }
+    }
+}

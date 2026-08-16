@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二维码生成 - SZY工具集</title>
+    <link rel="stylesheet" href="../qrcode/style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-top">
+                <div class="logo-wrapper">
+                    <span class="logo-char logo-l">S</span>
+                    <span class="logo-char logo-i">Z</span>
+                    <span class="logo-char logo-pipe">Y</span>
+                    <span class="logo-text">工具集</span>
+                </div>
+                <p class="logo-subtitle">二维码工具 - 文本/网址转二维码，支持解码识别</p>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" data-mode="generate" id="btnGenerateNav">生成二维码</button>
+                <button class="nav-btn" data-mode="decode" id="btnDecodeNav">解码识别</button>
+                <a href="../index.html" class="nav-btn">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    <span class="nav-label">返回SZY工具集</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="https://www.szystudio.cn" target="_blank" rel="noopener noreferrer" class="footer-link studio-link">
+                    <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                    <span>SZY创新工作室 提供技术</span>
+                </a>
+                <a href="../update.html" rel="noopener noreferrer" class="footer-link beian-link">
+                    <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                    <span>检查更新</span>
+                </a>
+                <a href="../about.html" rel="noopener noreferrer" class="footer-link">
+                    <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    <span>关于</span>
+                </a>
+                <a href="../index.html" rel="noopener noreferrer" class="footer-link">
+                    <span>返回主页</span>
+                </a>
+            </div>
+        </aside>
+
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="菜单">
+            <span></span><span></span><span></span>
+        </button>
+
+        <main class="main-content" id="mainContent">
+            <div class="panel" id="panelGenerate">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <span class="title-icon">📱</span> 二维码生成器
+                    </h2>
+                    <p class="panel-subtitle">输入文本或网址，一键生成二维码，支持下载保存</p>
+                </div>
+                <div class="panel-body">
+                    <div class="input-group">
+                        <label class="input-label">
+                            <span>输入内容</span>
+                            <span class="char-count" id="qrCharCount">0 字符</span>
+                        </label>
+                        <textarea id="qrInput" class="code-area" placeholder="输入文本或网址（URL）..." rows="4" style="min-height:100px;"></textarea>
+                    </div>
+
+                    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <label style="font-size:0.88rem;font-weight:600;color:var(--text-secondary);">容错率：</label>
+                            <select id="qrEcc">
+                                <option value="L">L (约7%)</option>
+                                <option value="M" selected>M (约15%)</option>
+                                <option value="Q">Q (约25%)</option>
+                                <option value="H">H (约30%)</option>
+                            </select>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <label style="font-size:0.88rem;font-weight:600;color:var(--text-secondary);">尺寸：</label>
+                            <select id="qrSize">
+                                <option value="256">小 (256px)</option>
+                                <option value="384" selected>中 (384px)</option>
+                                <option value="512">大 (512px)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="action-row">
+                        <button class="btn btn-primary" id="btnGenerate">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 12a9 9 0 1 1-9-9"></path>
+                                <polyline points="21 3 21 9 15 9"></polyline>
+                            </svg>
+                            生成二维码
+                        </button>
+                        <button class="btn btn-outline" id="btnClear">清空</button>
+                    </div>
+
+                    <div class="output-group" id="qrOutputGroup" style="display:none;">
+                        <label class="input-label">
+                            <span>二维码</span>
+                        </label>
+                        <div class="qr-preview">
+                            <canvas id="qrCanvas"></canvas>
+                            <div class="output-actions" style="width:100%;">
+                                <button class="btn btn-secondary" id="btnDownload">
+                                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="7 10 12 15 17 10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                    下载 PNG
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel" id="panelDecode" style="display:none;">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <span class="title-icon">🔍</span> 二维码解码
+                    </h2>
+                    <p class="panel-subtitle">上传二维码图片，自动识别并解码内容</p>
+                </div>
+                <div class="panel-body">
+                    <div class="input-group">
+                        <label class="input-label">
+                            <span>选择二维码图片</span>
+                        </label>
+                        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+                            <label for="decodeFile" class="btn btn-outline" style="cursor:pointer;">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="17 8 12 3 7 8"></polyline>
+                                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                                </svg>
+                                上传图片
+                            </label>
+                            <input type="file" id="decodeFile" accept="image/png,image/jpeg,image/gif,image/webp,image/bmp" style="display:none;">
+                            <span style="font-size:0.8rem;color:var(--text-muted);">支持 PNG / JPG / GIF / WebP</span>
+                        </div>
+                    </div>
+
+                    <canvas id="decodeCanvas" style="display:none;"></canvas>
+
+                    <div class="output-group" id="decodeResultGroup" style="display:none;">
+                        <label class="input-label">
+                            <span>解码结果</span>
+                        </label>
+                        <textarea id="decodeResult" class="code-area output-area" readonly rows="4" style="min-height:80px;"></textarea>
+                    </div>
+
+                    <div id="decodePlaceholder" style="text-align:center;padding:24px 0;color:var(--text-muted);font-size:0.88rem;">
+                        上传二维码图片后将在此显示解码内容
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast" id="toast">
+        <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span id="toastMsg"></span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <script src="script.js"></script>
+<script src="../back.js"></script></body>
+</html>

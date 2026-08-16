@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编码解码 - SZY工具集</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="../favicon.png">
+</head>
+<body>
+    <div class="app-container">
+        <header class="main-header">
+            <div class="logo-wrapper">
+                <span class="logo-char logo-l">编</span>
+                <span class="logo-char logo-i">码</span>
+                <span class="logo-text">工具集</span>
+            </div>
+            <p class="logo-subtitle">URL编解码 / HTML实体 / Hex / ASCII / 摩斯电码 / 进制转换</p>
+        </header>
+
+        <main class="main-content">
+            <div class="cards-container">
+                <a href="url/index.html" class="card">
+                    <div class="card-icon">
+                        <span class="icon-char l">UR</span>
+                        <span class="icon-char pipe">L</span>
+                    </div>
+                    <h2 class="card-title">URL 编解码</h2>
+                    <p class="card-desc">对URL参数进行编码(encodeURIComponent)和解码(decodeURIComponent)</p>
+                    <div class="card-tags">
+                        <span class="tag">编码</span>
+                        <span class="tag">解码</span>
+                    </div>
+                    <div class="card-arrow">→</div>
+                </a>
+                <a href="htmlentity/index.html" class="card">
+                    <div class="card-icon">
+                        <span class="icon-char l">HT</span>
+                        <span class="icon-char i">ML</span>
+                    </div>
+                    <h2 class="card-title">HTML 实体编解码</h2>
+                    <p class="card-desc">对HTML特殊字符进行实体编码和解码，防止XSS攻击</p>
+                    <div class="card-tags">
+                        <span class="tag">实体编码</span>
+                        <span class="tag">安全</span>
+                    </div>
+                    <div class="card-arrow">→</div>
+                </a>
+                <a href="hex/index.html" class="card">
+                    <div class="card-icon">
+                        <span class="icon-char l">He</span>
+                        <span class="icon-char i">x</span>
+                    </div>
+                    <h2 class="card-title">Hex 编解码</h2>
+                    <p class="card-desc">文本与十六进制字符串之间互相转换</p>
+                    <div class="card-tags">
+                        <span class="tag">十六进制</span>
+                        <span class="tag">编码解码</span>
+                    </div>
+                    <div class="card-arrow">→</div>
+                </a>
+                <a href="ascii/index.html" class="card">
+                    <div class="card-icon">
+                        <span class="icon-char l">AS</span>
+                        <span class="icon-char i">C</span>
+                    </div>
+                    <h2 class="card-title">ASCII 码转换</h2>
+                    <p class="card-desc">字符与ASCII码值之间互相转换，支持批量处理</p>
+                    <div class="card-tags">
+                        <span class="tag">ASCII</span>
+                        <span class="tag">字符编码</span>
+                    </div>
+                    <div class="card-arrow">→</div>
+                </a>
+                <a href="morse/index.html" class="card">
+                    <div class="card-icon">
+                        <span class="icon-char l">--</span>
+                        <span class="icon-char pipe">..</span>
+                    </div>
+                    <h2 class="card-title">摩斯电码</h2>
+                    <p class="card-desc">文本与摩斯电码（Morse Code）互相转换</p>
+                    <div class="card-tags">
+                        <span class="tag">摩斯电码</span>
+                        <span class="tag">经典编码</span>
+                    </div>
+                    <div class="card-arrow">→</div>
+                </a>
+                <a href="radix/index.html" class="card">
+                    <div class="card-icon">
+                        <span class="icon-char l">2^</span>
+                        <span class="icon-char i">n</span>
+                    </div>
+                    <h2 class="card-title">进制转换</h2>
+                    <p class="card-desc">在二进制、八进制、十进制、十六进制等之间自由转换</p>
+                    <div class="card-tags">
+                        <span class="tag">进制转换</span>
+                        <span class="tag">数学工具</span>
+                    </div>
+                    <div class="card-arrow">→</div>
+                </a>
+            </div>
+        </main>
+
+        <footer class="main-footer">
+            <div class="footer-links">
+                <a href="https://www.szystudio.cn" target="_blank" rel="noopener noreferrer" class="footer-link">
+                    <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                    <span>SZY创新工作室 提供技术</span>
+                </a>
+                <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer" class="footer-link">
+                    <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                    <span>京ICP备2024098823号-4</span>
+                </a>
+                <a href="../index.html" rel="noopener noreferrer" class="footer-link">
+                    <span>返回主页</span>
+                </a>
+                <a href="../download.html" rel="noopener noreferrer" class="footer-link">
+                    <span>下载APP</span>
+                </a>
+            </div>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

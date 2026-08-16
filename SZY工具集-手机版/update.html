@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>检查更新 - SZY工具集</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        :root {
+            --accent: #5b8def;
+            --accent-dark: #4a7de0;
+            --accent-light: #e8f0fe;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --danger: #ef4444;
+            --danger-light: #fee2e2;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --border: #e5e7eb;
+            --bg: #f8f9fb;
+            --card-bg: #ffffff;
+            --radius: 14px;
+            --radius-lg: 18px;
+            --radius-sm: 10px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+            --shadow: 0 4px 20px rgba(0,0,0,0.06);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { 
+            font-size: 16px; 
+            -webkit-font-smoothing: antialiased; 
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--bg);
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(91,141,239,0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(245,158,11,0.03) 0%, transparent 50%),
+                radial-gradient(circle at 50% 80%, rgba(16,185,129,0.03) 0%, transparent 50%),
+                linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 24px 24px, 24px 24px;
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 440px;
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 28px;
+            animation: fadeInDown 0.7s ease-out;
+        }
+
+        .logo-chars {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            padding: 8px 18px;
+            background: var(--card-bg);
+            border-radius: 24px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+        }
+
+        .logo-char {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 1.3rem;
+            font-weight: 700;
+            transition: transform var(--transition);
+        }
+
+        .logo-char:hover {
+            transform: scale(1.1);
+        }
+
+        .logo-s { background: #e8f0fe; color: #3b7de0; }
+        .logo-z { background: #fde8ec; color: #d94862; }
+        .logo-y { background: #e5e7eb; color: #6b7280; }
+
+        .logo-text {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-left: 4px;
+            color: var(--text-primary);
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .status-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            padding: 28px 24px;
+            box-shadow: var(--shadow);
+            animation: fadeInUp 0.6s ease-out 0.15s both;
+            transition: box-shadow var(--transition);
+        }
+
+        .status-card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .checking {
+            text-align: center;
+            padding: 24px 0;
+        }
+
+        .spinner-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .spinner {
+            width: 52px;
+            height: 52px;
+            border: 3px solid #e5e7eb;
+            border-top-color: var(--accent);
+            border-right-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .checking-text {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .checking-detail {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            background: #f9fafb;
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .status-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin: 0 auto 16px;
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition);
+        }
+
+        .status-icon:hover {
+            transform: scale(1.05);
+        }
+
+        .status-icon.up-to-date { background: var(--success-light); color: var(--success); }
+        .status-icon.update-available { background: var(--warning-light); color: var(--warning); }
+        .status-icon.error { background: var(--danger-light); color: var(--danger); }
+
+        .status-title {
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: -0.3px;
+        }
+
+        .status-message {
+            text-align: center;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .version-compare {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            padding: 18px;
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            border-radius: var(--radius);
+            margin-bottom: 18px;
+            border: 1px solid var(--border);
+        }
+
+        .version-block {
+            text-align: center;
+            flex: 1;
+        }
+
+        .version-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .version-number {
+            font-family: var(--font-mono);
+            font-size: 1.15rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        .version-number.old { 
+            color: var(--text-muted); 
+            background: #f3f4f6;
+        }
+        .version-number.new { 
+            color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        .version-arrow {
+            font-size: 1.6rem;
+            color: var(--accent);
+            font-weight: 700;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .update-content {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef9e7 100%);
+            border: 1px solid #fde68a;
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .update-content-title {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .update-content-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .update-content-list li {
+            font-size: 0.8rem;
+            color: #78350f;
+            padding: 4px 0;
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .update-content-list li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: #f59e0b;
+            font-size: 0.6rem;
+            top: 6px;
+        }
+
+        .file-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            background: #f9fafb;
+            border-radius: var(--radius-sm);
+            margin-bottom: 14px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .file-info-value {
+            font-weight: 700;
+            font-family: var(--font-mono);
+            color: var(--text-primary);
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all var(--transition);
+            text-decoration: none;
+            letter-spacing: 0.2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: transparent;
+            transition: background var(--transition);
+        }
+
+        .btn:active::after {
+            background: rgba(0,0,0,0.08);
+        }
+
+        .btn + .btn { margin-top: 10px; }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(91,141,239,0.3);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 6px 20px rgba(91,141,239,0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-outline {
+            background: #fff;
+            color: var(--text-secondary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: #fafbff;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(239,68,68,0.3);
+        }
+
+        .btn-danger:hover { 
+            box-shadow: 0 6px 20px rgba(239,68,68,0.4);
+            transform: translateY(-2px);
+        }
+        .btn-danger:active { transform: translateY(0); }
+
+        .btn:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            pointer-events: none;
+            filter: grayscale(10%);
+        }
+
+        .download-progress {
+            display: none;
+            margin-bottom: 14px;
+            padding: 14px;
+            background: #f9fafb;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent) 0%, #7eb8ff 100%);
+            border-radius: 4px;
+            width: 0;
+            transition: width 0.4s ease;
+            box-shadow: 0 0 8px rgba(91,141,239,0.3);
+        }
+
+        .progress-text {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: var(--text-primary);
+            color: #fff;
+            padding: 12px 22px;
+            border-radius: 24px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+            animation: toastIn 0.35s ease-out, toastOut 0.3s ease-in forwards;
+            animation-delay: 0s, 2.2s;
+            pointer-events: auto;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            backdrop-filter: blur(10px);
+        }
+
+        .toast.success { background: #059669; }
+        .toast.warning { background: #d97706; }
+        .toast.error { background: #dc2626; }
+        .toast.info { background: #1f2937; }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(-30px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes toastOut {
+            from { opacity: 1; transform: translateY(0) scale(1); }
+            to { opacity: 0; transform: translateY(-20px) scale(0.9); }
+        }
+
+        .footer-info {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        .footer-info a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition);
+        }
+
+        .footer-info a:hover {
+            color: var(--accent-dark);
+            text-decoration: underline;
+        }
+
+        .hidden { display: none !important; }
+
+        .debug-panel {
+            margin-top: 16px;
+            padding: 14px;
+            background: #1e293b;
+            border-radius: var(--radius-sm);
+            color: #e2e8f0;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            line-height: 1.5;
+            max-height: 180px;
+            overflow-y: auto;
+            display: none;
+            border: 1px solid #334155;
+        }
+
+        .debug-panel.show { display: block; }
+
+        .debug-panel::-webkit-scrollbar {
+            width: 4px;
+        }
+        .debug-panel::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 16px; }
+            .container { max-width: 100%; }
+            .status-card { padding: 22px 16px; }
+            .version-compare { padding: 14px; gap: 10px; }
+            .btn { padding: 13px 16px; font-size: 0.85rem; }
+            .toast-container { top: 16px; }
+            .toast { font-size: 0.8rem; padding: 10px 18px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="toast-container" id="toastContainer"></div>
+
+    <div class="container">
+        <div class="logo-section">
+            <div class="logo-chars">
+                <span class="logo-char logo-s">S</span>
+                <span class="logo-char logo-z">Z</span>
+                <span class="logo-char logo-y">Y</span>
+                <span class="logo-text">工具集</span>
+            </div>
+        </div>
+
+        <div class="status-card">
+            <div id="checkingSection">
+                <div class="checking">
+                    <div class="spinner-wrapper">
+                        <div class="spinner"></div>
+                    </div>
+                    <p class="checking-text">正在检查更新...</p>
+                    <p class="checking-detail" id="checkingDetail"></p>
+                </div>
+            </div>
+
+            <div id="upToDateSection" class="hidden">
+                <div class="status-icon up-to-date">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                </div>
+                <h2 class="status-title">已是最新版本</h2>
+                <p class="status-message">您正在使用最新版本，无需更新</p>
+                <div class="version-compare">
+                    <div class="version-block">
+                        <div class="version-label">本地版本</div>
+                        <div class="version-number old" id="upLocalVer">-</div>
+                    </div>
+                    <div class="version-arrow">=</div>
+                    <div class="version-block">
+                        <div class="version-label">服务器版本</div>
+                        <div class="version-number new" id="upServerVer">-</div>
+                    </div>
+                </div>
+                <button class="btn btn-outline" onclick="recheck()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                    重新检查
+                </button>
+            </div>
+
+            <div id="updateAvailableSection" class="hidden">
+                <div class="status-icon update-available">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                </div>
+                <h2 class="status-title">发现新版本！</h2>
+                <p class="status-message" id="updateMessage">建议更新到最新版本</p>
+                <div class="version-compare">
+                    <div class="version-block">
+                        <div class="version-label">本地版本</div>
+                        <div class="version-number old" id="uaLocalVer">-</div>
+                    </div>
+                    <div class="version-arrow">→</div>
+                    <div class="version-block">
+                        <div class="version-label">最新版本</div>
+                        <div class="version-number new" id="uaServerVer">-</div>
+                    </div>
+                </div>
+                <div class="update-content" id="updateContentSection">
+                    <div class="update-content-title">📋 更新内容</div>
+                    <ul class="update-content-list" id="updateContentList"></ul>
+                </div>
+                <div class="file-info">
+                    <span>📦 安装包大小</span>
+                    <span class="file-info-value" id="uaFileSize">-</span>
+                </div>
+                <div class="download-progress" id="uaDownloadProgress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="uaProgressFill"></div>
+                    </div>
+                    <div class="progress-text" id="uaProgressText">准备下载...</div>
+                </div>
+                <button class="btn btn-primary" id="btnUpdate" onclick="startUpdate()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    立即更新
+                </button>
+                <button class="btn btn-outline" id="btnLater" onclick="laterUpdate()">
+                    ⏰ 稍后提醒
+                </button>
+            </div>
+
+            <div id="forceUpdateSection" class="hidden">
+                <div class="status-icon update-available">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <h2 class="status-title">必须更新！</h2>
+                <p class="status-message">当前版本已停止支持，请立即更新</p>
+                <div class="version-compare">
+                    <div class="version-block">
+                        <div class="version-label">本地版本(已过期)</div>
+                        <div class="version-number old" id="fuLocalVer">-</div>
+                    </div>
+                    <div class="version-arrow">→</div>
+                    <div class="version-block">
+                        <div class="version-label">最新版本</div>
+                        <div class="version-number new" id="fuServerVer">-</div>
+                    </div>
+                </div>
+                <div class="download-progress" id="fuDownloadProgress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="fuProgressFill"></div>
+                    </div>
+                    <div class="progress-text" id="fuProgressText">准备下载...</div>
+                </div>
+                <button class="btn btn-danger" id="btnForceUpdate" onclick="startUpdate()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    立即更新
+                </button>
+            </div>
+
+            <div id="errorSection" class="hidden">
+                <div class="status-icon error">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                </div>
+                <h2 class="status-title">检查失败</h2>
+                <p class="status-message" id="errorMessage">无法连接到更新服务器</p>
+                <button class="btn btn-outline" onclick="recheck()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                    重试
+                </button>
+                <button class="btn btn-outline" onclick="skipCheck()" style="margin-top:10px;">⏭️ 跳过</button>
+            </div>
+
+            <div class="debug-panel" id="debugPanel">
+                <div id="debugContent"></div>
+            </div>
+        </div>
+
+        <div class="footer-info">
+            <span>SZY工具集</span> · 
+            <a href="index.html">返回主页</a> · 
+            <a href="javascript:history.back()">返回上一页</a>
+            <br>
+            <a href="javascript:void(0)" onclick="toggleDebug()" style="font-size:0.6rem;opacity:0.5;">🔧 调试信息</a>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            const SERVER_API_URL = 'https://tools.szystudio.cn/api/version.json';
+            const DOWNLOAD_BASE_URL = 'https://tools.szystudio.cn/';
+            
+            const APP_VERSION = {
+                versionName: '5.2.0',
+                packageName: 'cn.szystudio.szytools'
+            };
+            
+            let localVersion = {
+                versionName: APP_VERSION.versionName,
+                packageName: APP_VERSION.packageName
+            };
+
+            let serverVersion = null;
+            let debugMessages = [];
+            let downloadTask = null;
+
+            function showToast(message, type = 'info', duration = 2500) {
+                const container = document.getElementById('toastContainer');
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                
+                const icons = {
+                    success: '✅',
+                    warning: '⚠️',
+                    error: '❌',
+                    info: 'ℹ️'
+                };
+                
+                toast.innerHTML = `${icons[type]} ${message}`;
+                container.appendChild(toast);
+                
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.remove();
+                    }
+                }, duration + 350);
+            }
+
+            function isPlusReady() {
+                return typeof plus !== 'undefined';
+            }
+
+            function addDebugMessage(msg, type = 'info') {
+                const emoji = {
+                    info: 'ℹ️',
+                    success: '✅',
+                    warning: '⚠️',
+                    error: '❌'
+                };
+                const timestamp = new Date().toLocaleTimeString();
+                const message = `${emoji[type]} [${timestamp}] ${msg}`;
+                debugMessages.push(message);
+                console.log(message);
+                
+                const debugContent = document.getElementById('debugContent');
+                if (debugContent) {
+                    debugContent.innerHTML = debugMessages.join('<br>');
+                }
+            }
+
+            window.toggleDebug = function() {
+                const panel = document.getElementById('debugPanel');
+                panel.classList.toggle('show');
+                if (panel.classList.contains('show')) {
+                    document.getElementById('debugContent').innerHTML = debugMessages.join('<br>');
+                }
+            };
+
+            const sections = {
+                checking: document.getElementById('checkingSection'),
+                upToDate: document.getElementById('upToDateSection'),
+                updateAvailable: document.getElementById('updateAvailableSection'),
+                forceUpdate: document.getElementById('forceUpdateSection'),
+                error: document.getElementById('errorSection')
+            };
+
+            function showSection(section) {
+                Object.values(sections).forEach(s => s.classList.add('hidden'));
+                section.classList.remove('hidden');
+            }
+
+            function compareVersion(v1, v2) {
+                const parts1 = v1.split('.').map(Number);
+                const parts2 = v2.split('.').map(Number);
+                const maxLength = Math.max(parts1.length, parts2.length);
+                
+                for (let i = 0; i < maxLength; i++) {
+                    const num1 = parts1[i] || 0;
+                    const num2 = parts2[i] || 0;
+                    if (num1 > num2) return 1;
+                    if (num1 < num2) return -1;
+                }
+                return 0;
+            }
+
+            function getApiUrl() {
+                const timestamp = new Date().getTime();
+                const separator = SERVER_API_URL.includes('?') ? '&' : '?';
+                return `${SERVER_API_URL}${separator}_t=${timestamp}`;
+            }
+
+            async function loadLocalVersion() {
+                addDebugMessage('开始加载本地版本信息...', 'info');
+                
+                if (isPlusReady()) {
+                    try {
+                        addDebugMessage('检测到 HBuilderX plus 环境', 'success');
+                        const appInfo = plus.runtime.version;
+                        if (appInfo) {
+                            localVersion.versionName = appInfo;
+                            addDebugMessage('从 plus.runtime 读取版本号: v' + appInfo, 'success');
+                            return;
+                        }
+                    } catch (e) {
+                        addDebugMessage('plus.runtime 读取失败: ' + e.message, 'warning');
+                    }
+                }
+                
+                try {
+                    addDebugMessage('尝试从本地 version.json 读取...', 'info');
+                    const localTimestamp = new Date().getTime();
+                    const response = await fetch(`version.json?_t=${localTimestamp}`, {
+                        cache: 'no-store'
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.versionName) {
+                            localVersion.versionName = data.versionName;
+                            addDebugMessage('从本地 version.json 读取版本号: v' + data.versionName, 'success');
+                            return;
+                        }
+                    }
+                } catch (e) {
+                    addDebugMessage('读取本地 version.json 失败', 'warning');
+                }
+
+                localVersion.versionName = APP_VERSION.versionName;
+                addDebugMessage('使用默认版本: v' + APP_VERSION.versionName, 'warning');
+            }
+
+            async function checkUpdate() {
+                showSection(sections.checking);
+                document.getElementById('checkingDetail').textContent = 
+                    '本地版本: v' + localVersion.versionName;
+
+                addDebugMessage('开始连接更新服务器...', 'info');
+                const apiUrl = getApiUrl();
+                addDebugMessage('请求地址: ' + apiUrl, 'info');
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'GET',
+                        cache: 'no-store',
+                        headers: {
+                            'Cache-Control': 'no-cache, no-store, must-revalidate',
+                            'Pragma': 'no-cache',
+                            'Expires': '0'
+                        }
+                    });
+
+                    if (!response.ok) throw new Error('服务器响应错误: HTTP ' + response.status);
+                    serverVersion = await response.json();
+
+                    addDebugMessage('服务器版本: v' + serverVersion.versionName, 'success');
+                    addDebugMessage('版本比较: 本地 v' + localVersion.versionName + ' vs 服务器 v' + serverVersion.versionName, 'info');
+
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+
+                    const compareResult = compareVersion(serverVersion.versionName, localVersion.versionName);
+                    
+                    if (compareResult > 0) {
+                        addDebugMessage('🔔 发现新版本！', 'warning');
+                        if (serverVersion.forceUpdate) {
+                            addDebugMessage('这是强制更新', 'warning');
+                            showForceUpdate();
+                        } else {
+                            showUpdateAvailable();
+                        }
+                    } else if (compareResult < 0) {
+                        addDebugMessage('本地版本高于服务器版本，视为已是最新', 'info');
+                        showUpToDate();
+                    } else {
+                        addDebugMessage('已是最新版本', 'success');
+                        showUpToDate();
+                    }
+                } catch (error) {
+                    addDebugMessage('检查更新失败: ' + error.message, 'error');
+                    showError('无法连接到更新服务器\n' + error.message);
+                }
+            }
+
+            function showUpToDate() {
+                document.getElementById('upLocalVer').textContent = 'v' + localVersion.versionName;
+                document.getElementById('upServerVer').textContent = 'v' + serverVersion.versionName;
+                showSection(sections.upToDate);
+                showToast('已是最新版本', 'success');
+            }
+
+            function showUpdateAvailable() {
+                document.getElementById('uaLocalVer').textContent = 'v' + localVersion.versionName;
+                document.getElementById('uaServerVer').textContent = 'v' + serverVersion.versionName;
+                document.getElementById('updateMessage').textContent = 
+                    serverVersion.updateMessage || '发现新版本 v' + serverVersion.versionName;
+                document.getElementById('uaFileSize').textContent = 
+                    (serverVersion.download && serverVersion.download.size) ? serverVersion.download.size : '未知';
+
+                const contentList = document.getElementById('updateContentList');
+                contentList.innerHTML = '';
+                if (serverVersion.changelog && serverVersion.changelog.length > 0) {
+                    const latestLog = serverVersion.changelog[serverVersion.changelog.length - 1];
+                    if (latestLog.changes) {
+                        latestLog.changes.forEach(change => {
+                            const li = document.createElement('li');
+                            li.textContent = change;
+                            contentList.appendChild(li);
+                        });
+                    }
+                }
+
+                showSection(sections.updateAvailable);
+                showToast('发现新版本 v' + serverVersion.versionName, 'warning', 3000);
+            }
+
+            function showForceUpdate() {
+                document.getElementById('fuLocalVer').textContent = 'v' + localVersion.versionName;
+                document.getElementById('fuServerVer').textContent = 'v' + serverVersion.versionName;
+                showSection(sections.forceUpdate);
+                showToast('必须更新到最新版本！', 'error', 3500);
+            }
+
+            function showError(message) {
+                document.getElementById('errorMessage').textContent = message;
+                showSection(sections.error);
+                showToast('检查更新失败', 'error');
+            }
+
+            function downloadAndInstallWithPlus(downloadUrl) {
+                addDebugMessage('使用 HBuilderX plus.downloader 下载', 'info');
+                
+                const currentSection = document.querySelector('div:not(.hidden)');
+                let progressDiv, progressFill, progressText, updateBtn;
+                
+                if (currentSection.id === 'updateAvailableSection') {
+                    progressDiv = document.getElementById('uaDownloadProgress');
+                    progressFill = document.getElementById('uaProgressFill');
+                    progressText = document.getElementById('uaProgressText');
+                    updateBtn = document.getElementById('btnUpdate');
+                } else if (currentSection.id === 'forceUpdateSection') {
+                    progressDiv = document.getElementById('fuDownloadProgress');
+                    progressFill = document.getElementById('fuProgressFill');
+                    progressText = document.getElementById('fuProgressText');
+                    updateBtn = document.getElementById('btnForceUpdate');
+                }
+
+                if (progressDiv) progressDiv.style.display = 'block';
+                if (updateBtn) {
+                    updateBtn.disabled = true;
+                    updateBtn.textContent = '⏳ 正在下载...';
+                }
+
+                downloadTask = plus.downloader.createDownload(downloadUrl, {
+                    filename: '_downloads/SZYTool_update.apk',
+                    timeout: 30 
+                }, function(download, status) {
+                    if (status === 200) {
+                        addDebugMessage('下载完成: ' + download.filename, 'success');
+                        if (progressFill) progressFill.style.width = '100%';
+                        if (progressText) progressText.textContent = '下载完成！正在安装...';
+                        if (updateBtn) updateBtn.textContent = '下载完成';
+                        showToast('下载完成，准备安装', 'success');
+                        
+                        setTimeout(function() {
+                            installApk(download.filename);
+                        }, 500);
+                    } else {
+                        addDebugMessage('下载失败，状态码: ' + status, 'error');
+                        if (progressText) progressText.textContent = '下载失败';
+                        if (updateBtn) {
+                            updateBtn.disabled = false;
+                            updateBtn.textContent = '重新下载';
+                        }
+                        showToast('下载失败，请重试', 'error');
+                        
+                        fallbackDownload(downloadUrl);
+                    }
+                });
+
+                downloadTask.addEventListener('statechanged', function(download, status) {
+                    if (download.state === 3) { 
+                        const progress = download.downloadedSize / download.totalSize * 100;
+                        if (progressFill) progressFill.style.width = progress + '%';
+                        if (progressText) {
+                            const downloaded = (download.downloadedSize / 1024 / 1024).toFixed(1);
+                            const total = (download.totalSize / 1024 / 1024).toFixed(1);
+                            progressText.textContent = `下载中... ${Math.round(progress)}% (${downloaded}MB/${total}MB)`;
+                        }
+                        addDebugMessage(`下载进度: ${Math.round(progress)}%`, 'info');
+                    }
+                });
+
+                downloadTask.start();
+                addDebugMessage('开始下载: ' + downloadUrl, 'info');
+            }
+
+            function installApk(filePath) {
+                addDebugMessage('准备安装 APK: ' + filePath, 'info');
+                
+                if (isPlusReady()) {
+                    try {
+                        plus.runtime.install(filePath, {
+                            force: true 
+                        }, function() {
+                            addDebugMessage('安装成功', 'success');
+                            showToast('安装成功', 'success');
+                            plus.runtime.quit(); 
+                        }, function(error) {
+                            addDebugMessage('安装失败: ' + error.message, 'error');
+                            showToast('安装失败', 'error');
+                            fallbackInstall(filePath);
+                        });
+                    } catch (e) {
+                        addDebugMessage('安装异常: ' + e.message, 'error');
+                        fallbackInstall(filePath);
+                    }
+                } else {
+                    addDebugMessage('plus 不可用，降级处理', 'warning');
+                    fallbackInstall(filePath);
+                }
+            }
+
+            function fallbackInstall(filePath) {
+                addDebugMessage('尝试使用系统方式打开 APK', 'info');
+                
+                if (isPlusReady()) {
+                    try {
+                        plus.runtime.openFile(filePath, {
+                            pname: 'com.android.packageinstaller'
+                        });
+                        addDebugMessage('已打开系统安装器', 'info');
+                        showToast('已打开安装器', 'info');
+                    } catch (e) {
+                        addDebugMessage('打开失败: ' + e.message, 'error');
+                    }
+                }
+            }
+
+            function fallbackDownload(downloadUrl) {
+                addDebugMessage('降级到浏览器下载', 'warning');
+                
+                if (isPlusReady()) {
+                    plus.runtime.openURL(downloadUrl);
+                } else {
+                    window.location.href = downloadUrl;
+                }
+            }
+
+            window.startUpdate = function() {
+                const downloadPath = (serverVersion.download && serverVersion.download.url) 
+                    ? serverVersion.download.url 
+                    : 'app-release.apk';
+                const downloadUrl = DOWNLOAD_BASE_URL + downloadPath;
+                
+                addDebugMessage('开始更新流程', 'info');
+                addDebugMessage('下载地址: ' + downloadUrl, 'info');
+                
+                showToast('下载任务已开始', 'success', 2500);
+                
+                if (isPlusReady()) {
+                    addDebugMessage('使用 HBuilderX plus API 下载', 'info');
+                    downloadAndInstallWithPlus(downloadUrl);
+                } else {
+                    addDebugMessage('浏览器环境：触发下载', 'warning');
+                    const a = document.createElement('a');
+                    a.href = downloadUrl;
+                    a.download = 'SZYTool_update.apk';
+                    a.style.display = 'none';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    showToast('浏览器下载已触发', 'info');
+                }
+            };
+
+            window.recheck = function() {
+                addDebugMessage('用户点击了重新检查', 'info');
+                showToast('正在重新检查...', 'info', 1500);
+                checkUpdate();
+            };
+
+            window.skipCheck = function() {
+                addDebugMessage('用户跳过了更新检查', 'info');
+                showToast('已跳过更新检查', 'info');
+                if (isPlusReady()) {
+                    plus.runtime.quit();
+                }
+            };
+
+            window.laterUpdate = function() {
+                addDebugMessage('用户选择了返回首页', 'info');
+                showToast('稍后提醒', 'info');
+                if (isPlusReady()) {
+                    plus.runtime.quit();
+                }
+            };
+
+            async function init() {
+                addDebugMessage('SZY工具集 - 更新检查页启动', 'info');
+                addDebugMessage('运行环境: ' + (isPlusReady() ? 'HBuilderX APP' : '浏览器'), 'info');
+                addDebugMessage('更新策略: 仅对比版本号（versionName）', 'info');
+                addDebugMessage('下载方式: HBuilderX plus.downloader', 'info');
+                
+                if (typeof plus !== 'undefined') {
+                    addDebugMessage('plus 已就绪', 'success');
+                } else {
+                    addDebugMessage('等待 plus 就绪...', 'info');
+                    document.addEventListener('plusready', function() {
+                        addDebugMessage('plus 就绪事件触发', 'success');
+                    }, false);
+                }
+                
+                await loadLocalVersion();
+                addDebugMessage('本地版本: v' + localVersion.versionName, 'success');
+                
+                await checkUpdate();
+            }
+
+            init();
+        })();
+    </script>
+</body>
+</html>

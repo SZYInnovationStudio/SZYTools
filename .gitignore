@@ -1,0 +1,16 @@
+# HBuilderX 项目配置与启动信息
+.hbuilderx/
+
+# 构建产物、缓存与签名证书（含私钥，请勿提交）
+unpackage/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 工具与编辑器临时文件
+.user.ini
+*.log
+*.tmp
+*~

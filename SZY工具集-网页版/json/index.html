@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON工具 - SZY工具集</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-top">
+                <div class="logo-wrapper">
+                    <span class="logo-char logo-l">S</span>
+                    <span class="logo-char logo-i">Z</span>
+                    <span class="logo-char logo-pipe">Y</span>
+                    <span class="logo-text">工具集</span>
+                </div>
+                <p class="logo-subtitle">JSON工具 - 格式化、压缩、校验、转JS/YAML/XML</p>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" data-mode="format" id="btnFormat">格式化</button>
+                <button class="nav-btn" data-mode="minify" id="btnMinify">压缩</button>
+                <button class="nav-btn" data-mode="validate" id="btnValidate">校验</button>
+                <button class="nav-btn" data-mode="convert" id="btnConvert">转JS对象</button>
+                <button class="nav-btn" data-mode="yaml" id="btnYaml">转YAML</button>
+                <button class="nav-btn" data-mode="xml" id="btnXml">转XML</button>
+                <a href="../index.html" class="nav-btn">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    <span class="nav-label">返回SZY工具集</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="https://www.szystudio.cn" target="_blank" rel="noopener noreferrer" class="footer-link studio-link">
+                    <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                    <span>SZY创新工作室 提供技术</span>
+                </a>
+                <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer" class="footer-link beian-link">
+                    <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                    </svg>
+                    <span>京ICP备2024098823号-4</span>
+                </a>
+                <a href="../download.html" rel="noopener noreferrer" class="footer-link">
+                    <span>下载APP</span>
+                </a>
+            </div>
+        </aside>
+
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="菜单">
+            <span></span><span></span><span></span>
+        </button>
+
+        <main class="main-content" id="mainContent">
+            <div class="panel" id="panelFormat">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <span class="title-icon">📝</span> JSON 格式化
+                    </h2>
+                    <p class="panel-subtitle">将压缩的JSON美化对齐，方便阅读与调试</p>
+                </div>
+                <div class="panel-body">
+                    <div class="input-group">
+                        <label class="input-label">
+                            <span>JSON 数据</span>
+                        </label>
+                        <textarea id="jsonFormatInput" class="code-area" placeholder="在此粘贴 JSON 数据..." rows="12"></textarea>
+                    </div>
+                    <div class="action-row">
+                        <button class="btn btn-primary" id="btnDoFormat">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="16 18 22 12 16 6"></polyline>
+                            </svg>
+                            格式化
+                        </button>
+                        <button class="btn btn-outline" id="btnClearFormat">清空</button>
+                        <button class="btn btn-outline" id="btnDemoFormat">示例</button>
+                    </div>
+                    <div class="output-group" id="formatOutputGroup" style="display:none;">
+                        <label class="input-label">
+                            <span>格式化结果</span>
+                            <span class="char-count" id="formatCharCount">0 字符</span>
+                        </label>
+                        <textarea id="formatOutput" class="code-area output-area" readonly rows="12"></textarea>
+                        <div class="output-actions">
+                            <button class="btn btn-secondary" id="btnCopyFormat">📋 复制结果</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel" id="panelMinify" style="display:none;">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <span class="title-icon">⚡</span> JSON 压缩
+                    </h2>
+                    <p class="panel-subtitle">移除空格与换行，最小化JSON体积</p>
+                </div>
+                <div class="panel-body">
+                    <div class="input-group">
+                        <label class="input-label">
+                            <span>JSON 数据</span>
+                        </label>
+                        <textarea id="jsonMinInput" class="code-area" placeholder="在此粘贴 JSON 数据..." rows="12"></textarea>
+                    </div>
+                    <div class="action-row">
+                        <button class="btn btn-primary" id="btnDoMin">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="4 19 12 5 20 19"></polyline>
+                                <polyline points="7 14h10"></polyline>
+                            </svg>
+                            压缩
+                        </button>
+                        <button class="btn btn-outline" id="btnClearMin">清空</button>
+                    </div>
+                    <div class="output-group" id="minOutputGroup" style="display:none;">
+                        <label class="input-label">
+                            <span>压缩结果</span>
+                            <span class="char-count" id="minCharCount">0 字符</span>
+                        </label>
+                        <textarea id="minOutput" class="code-area output-area" readonly rows="6"></textarea>
+                        <div class="output-actions">
+                            <button class="btn btn-secondary" id="btnCopyMin">📋 复制结果</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel" id="panelValidate" style="display:none;">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <span class="title-icon">🔍</span> JSON 校验
+                    </h2>
+                    <p class="panel-subtitle">精确定位JSON语法错误位置，快速排查问题</p>
+                </div>
+                <div class="panel-body">
+                    <div class="input-group">
+                        <label class="input-label">
+                            <span>JSON 数据</span>
+                        </label>
+                        <textarea id="jsonValidateInput" class="code-area" placeholder="在此粘贴 JSON 数据..." rows="12"></textarea>
+                    </div>
+                    <div class="action-row">
+                        <button class="btn btn-primary" id="btnDoValidate">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="22 12 18 8 16 12"></polyline>
+                                <polyline points="16 12 18 16 22 12"></polyline>
+                                <line x1="2" y1="12" x2="14" y2="12"></line>
+                            </svg>
+                            校验
+                        </button>
+                        <button class="btn btn-outline" id="btnClearValidate">清空</button>
+                    </div>
+                    <div class="output-group" id="validateOutputGroup" style="display:none;">
+                        <label class="input-label">
+                            <span>校验结果</span>
+                        </label>
+                        <div id="validateOutput" class="validate-output"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel" id="panelConvert" style="display:none;">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <span class="title-icon">🔄</span> JSON 转 JS 对象
+                    </h2>
+                    <p class="panel-subtitle">将JSON快速转换为JavaScript对象字面量</p>
+                </div>
+                <div class="panel-body">
+                    <div class="input-group">
+                        <label class="input-label">
+                            <span>JSON 数据</span>
+                        </label>
+                        <textarea id="jsonConvertInput" class="code-area" placeholder="在此粘贴 JSON 数据..." rows="12"></textarea>
+                    </div>
+                    <div class="action-row">
+                        <button class="btn btn-primary" id="btnDoConvert">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="17 1 21 5 17 9"></polyline>
+                                <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                                <polyline points="7 23 3 19 7 15"></polyline>
+                                <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                            </svg>
+                            转换
+                        </button>
+                        <button class="btn btn-outline" id="btnClearConvert">清空</button>
+                        <button class="btn btn-outline" id="btnDemoConvert">示例</button>
+                    </div>
+                    <div class="output-group" id="convertOutputGroup" style="display:none;">
+                        <label class="input-label">
+                            <span>JS 对象结果</span>
+                            <span class="char-count" id="convertCharCount">0 字符</span>
+                        </label>
+                        <textarea id="convertOutput" class="code-area output-area" readonly rows="12"></textarea>
+                        <div class="output-actions">
+                            <button class="btn btn-secondary" id="btnCopyConvert">📋 复制结果</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel" id="panelYaml" style="display:none;">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <span class="title-icon">📄</span> JSON 转 YAML
+                    </h2>
+                    <p class="panel-subtitle">将JSON数据转为YAML格式</p>
+                </div>
+                <div class="panel-body">
+                    <div class="input-group">
+                        <label class="input-label">
+                            <span>JSON 数据</span>
+                        </label>
+                        <textarea id="jsonYamlInput" class="code-area" placeholder="在此粘贴 JSON 数据..." rows="12"></textarea>
+                    </div>
+                    <div class="action-row">
+                        <button class="btn btn-primary" id="btnDoYaml">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="17 1 21 5 17 9"></polyline>
+                                <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                            </svg>
+                            转换
+                        </button>
+                        <button class="btn btn-outline" id="btnClearYaml">清空</button>
+                        <button class="btn btn-outline" id="btnDemoYaml">示例</button>
+                    </div>
+                    <div class="output-group" id="yamlOutputGroup" style="display:none;">
+                        <label class="input-label">
+                            <span>YAML 结果</span>
+                            <span class="char-count" id="yamlCharCount">0 字符</span>
+                        </label>
+                        <textarea id="yamlOutput" class="code-area output-area" readonly rows="12"></textarea>
+                        <div class="output-actions">
+                            <button class="btn btn-secondary" id="btnCopyYaml">📋 复制结果</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel" id="panelXml" style="display:none;">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <span class="title-icon">📋</span> JSON 转 XML
+                    </h2>
+                    <p class="panel-subtitle">将JSON数据转为XML格式</p>
+                </div>
+                <div class="panel-body">
+                    <div class="input-group">
+                        <label class="input-label">
+                            <span>JSON 数据</span>
+                        </label>
+                        <textarea id="jsonXmlInput" class="code-area" placeholder="在此粘贴 JSON 数据..." rows="12"></textarea>
+                    </div>
+                    <div class="action-row">
+                        <button class="btn btn-primary" id="btnDoXml">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="17 1 21 5 17 9"></polyline>
+                                <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                            </svg>
+                            转换
+                        </button>
+                        <button class="btn btn-outline" id="btnClearXml">清空</button>
+                        <button class="btn btn-outline" id="btnDemoXml">示例</button>
+                    </div>
+                    <div class="output-group" id="xmlOutputGroup" style="display:none;">
+                        <label class="input-label">
+                            <span>XML 结果</span>
+                            <span class="char-count" id="xmlCharCount">0 字符</span>
+                        </label>
+                        <textarea id="xmlOutput" class="code-area output-area" readonly rows="12"></textarea>
+                        <div class="output-actions">
+                            <button class="btn btn-secondary" id="btnCopyXml">📋 复制结果</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast" id="toast">
+        <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span id="toastMsg"></span>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
