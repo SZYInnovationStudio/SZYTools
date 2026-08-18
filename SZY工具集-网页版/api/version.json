@@ -1,21 +1,21 @@
 {
     "name": "SZY工具集",
-    "versionName": "2.5.0",
-    "versionCode": 250,
+    "versionName": "5.2.1",
+    "versionCode": 521,
     "packageName": "cn.szystudio.szytools",
     "minSdkVersion": 21,
-    "updateTime": "2026-06-24",
+    "updateTime": "2026-08-16",
     "changelog": [
         {
-            "version": "2.5.0",
-            "date": "2026-06-24",
+            "version": "5.2.1",
+            "date": "2026-08-16",
             "changes": [
-                "完成H5工具集"
+                "统一页面样式，优化逻辑。修复了已知问题。"
             ]
         }
     ],
     "download": {
-        "url": "/api/apk/szytools-2.5.0.apk",
+        "url": "/api/apk/szytools-5.2.1.apk",
         "size": "4.88 MB",
         "md5": "a1da9d47ca8eea0abfa79e6680b7f0ba",
         "sha1": "14707476683631331da46a27276d61575454cb96"

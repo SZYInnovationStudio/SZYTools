@@ -55,7 +55,8 @@
 
     txtInput.addEventListener('input', function () { charCount.textContent = txtInput.value.length + ' 字符'; });
     btnToAscii.addEventListener('click', doToAscii); btnToChar.addEventListener('click', doToChar);
-    document.getElementById('btnToAscii').parentElement.querySelector('[data-mode]') && document.querySelectorAll('.sidebar .nav-btn[data-mode]').forEach(function (b) { b.addEventListener('click', function () { b.dataset.mode === 'toAscii' ? doToAscii() : doToChar(); }); });
+    var btnToAsciiMain = document.getElementById('btnToAsciiMain'), btnToCharMain = document.getElementById('btnToCharMain');
+    btnToAsciiMain.addEventListener('click', doToAscii); btnToCharMain.addEventListener('click', doToChar);
     btnClear.addEventListener('click', function () { txtInput.value = ''; txtOutput.value = ''; outputGroup.style.display = 'none'; charCount.textContent = '0 字符'; });
     btnSwap.addEventListener('click', function () { var tmp = txtInput.value; txtInput.value = txtOutput.value; txtOutput.value = tmp; charCount.textContent = txtInput.value.length + ' 字符'; if (txtOutput.value) outputGroup.style.display = 'flex'; });
     btnCopy.addEventListener('click', function () { copyToClipboard(txtOutput.value, '已复制到剪贴板'); });
