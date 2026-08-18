@@ -33,22 +33,21 @@
     }
 
     // --- HTML5+ App 环境：拦截硬件返回键 ---
-    if (typeof window.plus !== 'undefined') {
-        document.addEventListener('plusready', function () {
-            plus.key.addEventListener('backbutton', function () {
-                // 如果有上一页历史（history.length > 1），返回上级页面
-                // 否则退出应用
-                if (window.history.length > 1) {
-                    window.history.back();
-                } else {
-                    // 根页面，退出应用前给个提示
-                    if (window.confirm('确定要退出SZY工具集吗？')) {
-                        plus.runtime.quit();
-                    }
+    document.addEventListener('plusready', function () {
+        if (typeof window.plus === 'undefined' || !window.plus.key) return;
+        plus.key.addEventListener('backbutton', function () {
+            // 如果有上一页历史（history.length > 1），返回上级页面
+            // 否则退出应用
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                // 根页面，退出应用前给个提示
+                if (window.confirm('确定要退出SZY工具集吗？')) {
+                    plus.runtime.quit();
                 }
-            }, false);
+            }
         }, false);
-    }
+    }, false);
 
     // --- 浏览器环境：监听 popstate 做兜底 ---
     // 某些情况下 WebView 的 backbutton 可能不触发，这里用 popstate 兜底

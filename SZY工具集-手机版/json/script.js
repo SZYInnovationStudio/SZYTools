@@ -166,6 +166,8 @@
         }
     }
 
+    function escapeHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
     function validateJson(text) {
         try {
             JSON.parse(text);
@@ -319,7 +321,7 @@
             const icon = is.type === 'error' ? '❌' : (is.type === 'warn' ? '⚠️' : '✅');
             htmlOut += '<div class="issue issue-' + is.type + '">';
             htmlOut += '<span class="issue-icon">' + icon + '</span>';
-            htmlOut += '<span style="white-space:pre-wrap;font-family:var(--font-mono);font-size:0.82rem;">' + is.msg + '</span></div>';
+            htmlOut += '<span style="white-space:pre-wrap;font-family:var(--font-mono);font-size:0.82rem;">' + escapeHtml(is.msg) + '</span></div>';
         });
         if (validateOutput) { validateOutput.innerHTML = htmlOut; }
         if (validateOutputGroup) { validateOutputGroup.style.display = 'block'; }

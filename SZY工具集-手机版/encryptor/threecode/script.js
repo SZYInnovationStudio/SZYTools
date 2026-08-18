@@ -471,9 +471,11 @@
         console.log('  解密：将暗语还原为文字');
         console.log('  快捷键：Ctrl+Enter 执行操作 | Ctrl+Shift+C 复制结果');
     }
-    btnbackhome.addEventListener('click', function() {
-        window.location.href = "https://code.szystudio.cn";
-    });
+    if (btnbackhome) {
+        btnbackhome.addEventListener('click', function() {
+            window.location.href = "https://code.szystudio.cn";
+        });
+    }
 
     init();
 

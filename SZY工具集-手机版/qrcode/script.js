@@ -152,7 +152,13 @@
         }
 
         if (typeof plus === 'undefined' || !plus.gallery) {
-            downloadQR(dataUrl);
+            var a = document.createElement('a');
+            a.href = dataUrl;
+            a.download = 'qrcode.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            showToast('二维码已下载');
             return;
         }
 

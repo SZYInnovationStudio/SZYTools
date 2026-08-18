@@ -145,11 +145,27 @@
         return out;
     }
 
+    function isSafeUrl(url) {
+        if (!url) return false;
+        var u = String(url).replace(/[\u0000-\u001F\u007F\s]/g, '');
+        if (/^(https?:|mailto:|tel:)/i.test(u)) return true;
+        if (/^\/[^/]/.test(u) || /^\.{1,2}\//.test(u) || u.charAt(0) === '#' || u.charAt(0) === '?') return true;
+        if (/^data:image\//i.test(u)) return true;
+        return false;
+    }
+
     function inlineParse(t) {
         if (!t) return '';
         try {
-            t = t.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">');
-            t = t.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+            t = escapeHtml(t);
+            t = t.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, function (m, alt, src) {
+                if (!isSafeUrl(src)) return m;
+                return '<img src="' + src + '" alt="' + alt + '">';
+            });
+            t = t.replace(/\[([^\]]+)\]\(([^)]+)\)/g, function (m, txt, href) {
+                if (!isSafeUrl(href)) return m;
+                return '<a href="' + href + '" target="_blank" rel="noopener noreferrer">' + txt + '</a>';
+            });
             t = t.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
             t = t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
             t = t.replace(/__(.+?)__/g, '<strong>$1</strong>');

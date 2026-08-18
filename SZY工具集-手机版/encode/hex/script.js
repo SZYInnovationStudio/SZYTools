@@ -32,8 +32,8 @@
     mobileBtn.addEventListener('click', function () { sidebarOpen ? closeSidebar() : openSidebar(); });
     main.addEventListener('click', function (e) { if (sidebarOpen && window.innerWidth <= 900 && !sidebar.contains(e.target) && e.target !== mobileBtn) { closeSidebar(); } });
 
-    function textToHex(str) { var hex = ''; for (var i = 0; i < str.length; i++) { hex += str.charCodeAt(i).toString(16).padStart(2, '0'); } return hex; }
-    function hexToText(hex) { hex = hex.replace(/\s/g, ''); if (hex.length % 2 !== 0) { throw new Error('十六进制字符串长度必须为偶数'); } var str = ''; for (var i = 0; i < hex.length; i += 2) { str += String.fromCharCode(parseInt(hex.substr(i, 2), 16)); } return str; }
+    function textToHex(str) { var utf8 = unescape(encodeURIComponent(str)); var hex = ''; for (var i = 0; i < utf8.length; i++) { hex += utf8.charCodeAt(i).toString(16).padStart(2, '0'); } return hex; }
+    function hexToText(hex) { hex = hex.replace(/\s/g, ''); if (hex.length % 2 !== 0) { throw new Error('十六进制字符串长度必须为偶数'); } var bytes = ''; for (var i = 0; i < hex.length; i += 2) { bytes += String.fromCharCode(parseInt(hex.substr(i, 2), 16)); } return decodeURIComponent(escape(bytes)); }
 
     function switchMode(mode) {
         curMode = mode;
