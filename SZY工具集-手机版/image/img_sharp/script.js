@@ -66,7 +66,7 @@
         var ctx = cn.getContext('2d');
         var d = ctx.getImageData(0, 0, aw, ah);
         var p = d.data;
-        var out = new Uint8ClampedArray(p.length);
+        var out = new Uint8ClampedArray(p);
 
         var k = [
             0, -strength, 0,
@@ -89,7 +89,7 @@
             }
         }
 
-        for (var i = 0; i < p.length; i++) p[i] = out[i] || p[i];
+        d.data.set(out);
         ctx.putImageData(d, 0, 0);
 
         dl.href = cn.toDataURL('image/png');

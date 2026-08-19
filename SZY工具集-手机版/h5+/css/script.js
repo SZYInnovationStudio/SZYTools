@@ -492,12 +492,37 @@
     document.getElementById('btnCopyOb').addEventListener('click', onCopyObClick);
 
     function minifyCss(css) {
-        return css
-            .replace(/\/\*[\s\S]*?\*\//g, '')
-            .replace(/\s+/g, ' ')
-            .replace(/\s*([{};:,>+~])\s*/g, '$1')
-            .replace(/;\}/g, '}')
-            .trim();
+        var out = '', i = 0, n = css.length, inStr = null;
+        while (i < n) {
+            var ch = css[i];
+            if (inStr) {
+                out += ch;
+                if (ch === '\\' && i + 1 < n) { out += css[i + 1]; i += 2; }
+                else if (ch === inStr) { inStr = null; i++; }
+                else { i++; }
+                continue;
+            }
+            if (ch === '/' && css[i + 1] === '*') {
+                i += 2;
+                while (i < n && !(css[i] === '*' && css[i + 1] === '/')) i++;
+                i += 2;
+                continue;
+            }
+            if (ch === '"' || ch === "'") { inStr = ch; out += ch; i++; continue; }
+            if (/\s/.test(ch)) { i++; continue; }
+            if (ch === ';') {
+                var j = i + 1;
+                while (j < n && /\s/.test(css[j])) j++;
+                if (css[j] === '}') { i = j; continue; }
+            }
+            if ('{}:;,>+~'.indexOf(ch) >= 0) {
+                if (out.length && /\s/.test(out[out.length - 1])) out = out.slice(0, -1);
+                out += ch; i++; continue;
+            }
+            if (out.length && !/[\s{}:;,>+~]$/.test(out)) out += ' ';
+            out += ch; i++;
+        }
+        return out.trim();
     }
 
     function onMinClick() {

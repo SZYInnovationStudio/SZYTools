@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>下载 SZY工具集 - 多功能工具集合</title>
     <link rel="icon" type="image/png" href="favicon.png">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+    <script src="vendor/qrcodejs.min.js">
     </script>
     <style>
         :root {
@@ -766,8 +766,7 @@
 
                 <div class="verify-section" id="verifySection" style="display:none;">
                     <div class="verify-label">文件校验信息</div>
-                    <div style="margin-bottom:4px;">MD5: <span id="verifyMD5">-</span></div>
-                    <div style="margin-bottom:4px;">SHA-1: <span id="verifySHA1">-</span></div>
+                    <div style="margin-bottom:4px;">SHA-256: <span id="verifySHA256">-</span></div>
                     <div style="font-size:0.7rem;color:var(--text-muted);">下载后请校验哈希值确保文件完整性</div>
                 </div>
             </div>
@@ -905,8 +904,7 @@
                         download: {
                             url: 'api/apk/szytools-2.3.0.apk',
                             size: '4.87 MB',
-                            md5: 'a1b2c3d4e5f6789012345678abcdef01',
-                            sha1: 'b2c3d4e5f6789012345678abcdef0123456789a'
+                            sha256: ''
                         },
                         changelog: [
                             { date: '2026-06-24', version: '2.3.0', changes: ['暂无更新日志'] }
@@ -921,8 +919,7 @@
                         download: {
                             url: 'api/exe/szytools-2.3.0.exe',
                             size: '4.87 MB',
-                            md5: 'a1b2c3d4e5f6789012345678abcdef01',
-                            sha1: 'b2c3d4e5f6789012345678abcdef0123456789a'
+                            sha256: ''
                         },
                         changelog: [
                             { date: '2026-06-24', version: '2.3.0', changes: ['暂无更新日志'] }
@@ -979,8 +976,7 @@
                 document.getElementById('infoDate').textContent = appInfo.updateTime;
                 document.getElementById('infoSystem').textContent = isAndroid ? 'Android 5.0+' : 'Windows 10/11';
 
-                document.getElementById('verifyMD5').textContent = appInfo.download.md5 || '-';
-                document.getElementById('verifySHA1').textContent = appInfo.download.sha1 || '-';
+                document.getElementById('verifySHA256').textContent = appInfo.download.sha256 || '-';
                 document.getElementById('verifySection').style.display = 'block';
 
                 document.getElementById('btnDownloadText').textContent = isAndroid ? '立即下载 APK' : '立即下载 EXE';

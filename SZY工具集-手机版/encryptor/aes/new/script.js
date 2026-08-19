@@ -102,7 +102,7 @@
 
     function updateKeyStrength(keyInput, statusEl, strengthBar) {
         const key = keyInput.value;
-        const len = key.length;
+        const len = key ? CryptoJS.enc.Utf8.parse(key).sigBytes : 0;
         
         strengthBar.className = 'strength-bar';
         
@@ -154,14 +154,21 @@
         togglePasswordVisibility(aesDecryptKey, document.getElementById('btnToggleDecryptKey'));
     });
 
+    function generateSecureKey(length) {
+        const bytes = new Uint8Array(length);
+        window.crypto.getRandomValues(bytes);
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+        let key = '';
+        for (let i = 0; i < length; i++) {
+            key += chars.charAt(bytes[i] & 0x3f);
+        }
+        return key;
+    }
+
     document.getElementById('btnGenerateKey').addEventListener('click', () => {
         const lengths = [16, 24, 32];
         const length = lengths[Math.floor(Math.random() * lengths.length)];
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
-        let key = '';
-        for (let i = 0; i < length; i++) {
-            key += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
+        const key = generateSecureKey(length);
         aesEncryptKey.value = key;
         aesEncryptKey.type = 'text';
         document.getElementById('btnToggleEncryptKey').textContent = '🙈';
@@ -173,11 +180,7 @@
         item.addEventListener('click', function () {
             const bits = parseInt(this.dataset.bits);
             const length = bits / 8;
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
-            let key = '';
-            for (let i = 0; i < length; i++) {
-                key += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
+            const key = generateSecureKey(length);
             aesEncryptKey.value = key;
             aesEncryptKey.type = 'text';
             document.getElementById('btnToggleEncryptKey').textContent = '🙈';
@@ -203,7 +206,9 @@
             
             const ivBase64 = CryptoJS.enc.Base64.stringify(iv);
             const ciphertextBase64 = encrypted.toString();  
-            const combined = iv.concat(encrypted.ciphertext);
+            const body = iv.clone().concat(encrypted.ciphertext);
+            const tag = CryptoJS.HmacSHA256(body, keyUtf8);
+            const combined = body.concat(tag);
             const combinedBase64 = CryptoJS.enc.Base64.stringify(combined);
             const hexString = combined.toString(CryptoJS.enc.Hex);
             
@@ -213,7 +218,7 @@
                 ciphertext: ciphertextBase64,
                 combined: combinedBase64,
                 hex: hexString,
-                keyLength: key.length * 8,
+                keyLength: keyUtf8.sigBytes * 8,
                 cipherBytes: encrypted.ciphertext.sigBytes,
                 error: ''
             };
@@ -228,45 +233,10 @@
     function aesDecrypt(cipherInput, key, format) {
         try {
             const keyUtf8 = CryptoJS.enc.Utf8.parse(key);
+            const cleaned = cipherInput.trim();
             let iv, ciphertext;
-            let cleaned = cipherInput.trim();
-            
-            if (format === 'auto') {
-                if (/^[A-Za-z0-9+/]+=*$/.test(cleaned) && cleaned.length > 30) {
-                    try {
-                        const decrypted = CryptoJS.AES.decrypt(cleaned, keyUtf8, {
-                            mode: CryptoJS.mode.CBC,
-                            padding: CryptoJS.pad.Pkcs7
-                        });
-                        const result = decrypted.toString(CryptoJS.enc.Utf8);
-                        if (result) {
-                            return { success: true, result: result, error: '' };
-                        }
-                    } catch (e) {
-                       
-                    }
-                    
-                    try {
-                        const combined = CryptoJS.enc.Base64.parse(cleaned);
-                        iv = CryptoJS.lib.WordArray.create(combined.words.slice(0, 4), 16);
-                        ciphertext = CryptoJS.lib.WordArray.create(
-                            combined.words.slice(4),
-                            combined.sigBytes - 16
-                        );
-                    } catch (e) {
-                        throw new Error('无法解析密文格式');
-                    }
-                } else {
-                    throw new Error('密文格式不正确');
-                }
-            } else if (format === 'combined') {
-                const combined = CryptoJS.enc.Base64.parse(cleaned);
-                iv = CryptoJS.lib.WordArray.create(combined.words.slice(0, 4), 16);
-                ciphertext = CryptoJS.lib.WordArray.create(
-                    combined.words.slice(4),
-                    combined.sigBytes - 16
-                );
-            } else if (format === 'standard') {
+
+            if (format === 'standard') {
                 const decrypted = CryptoJS.AES.decrypt(cleaned, keyUtf8, {
                     mode: CryptoJS.mode.CBC,
                     padding: CryptoJS.pad.Pkcs7
@@ -275,20 +245,49 @@
                 if (!result) throw new Error('解密结果为空');
                 return { success: true, result: result, error: '' };
             }
-            
+
+            if (!/^[A-Za-z0-9+/]+=*$/.test(cleaned)) {
+                throw new Error('密文格式不正确');
+            }
+
+            const combined = CryptoJS.enc.Base64.parse(cleaned);
+
+            if (combined.sigBytes >= 64) {
+                const words = combined.words;
+                const tag = CryptoJS.lib.WordArray.create(words.slice(words.length - 8), 32);
+                const ivPart = CryptoJS.lib.WordArray.create(words.slice(0, 4), 16);
+                const ctPart = CryptoJS.lib.WordArray.create(words.slice(4, words.length - 8), combined.sigBytes - 48);
+                const body = CryptoJS.lib.WordArray.create(words.slice(0, words.length - 8), combined.sigBytes - 32);
+                const expected = CryptoJS.HmacSHA256(body, keyUtf8);
+                if (expected.toString() === tag.toString()) {
+                    iv = ivPart;
+                    ciphertext = ctPart;
+                } else if (format === 'combined') {
+                    throw new Error('完整性校验失败');
+                }
+            }
+
+            if (!ciphertext) {
+                if (format === 'auto') {
+                    const decrypted = CryptoJS.AES.decrypt(cleaned, keyUtf8, {
+                        mode: CryptoJS.mode.CBC,
+                        padding: CryptoJS.pad.Pkcs7
+                    });
+                    const result = decrypted.toString(CryptoJS.enc.Utf8);
+                    if (result) return { success: true, result: result, error: '' };
+                }
+                throw new Error('无法解析密文或完整性校验失败');
+            }
+
             const decrypted = CryptoJS.AES.decrypt(
                 { ciphertext: ciphertext },
                 keyUtf8,
-                {
-                    iv: iv,
-                    mode: CryptoJS.mode.CBC,
-                    padding: CryptoJS.pad.Pkcs7
-                }
+                { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }
             );
-            
+
             const result = decrypted.toString(CryptoJS.enc.Utf8);
             if (!result) throw new Error('解密失败，请检查密钥');
-            
+
             return { success: true, result: result, error: '' };
         } catch (e) {
             return {
@@ -322,20 +321,20 @@
         switch(currentFormat) {
             case 'combined':
                 output.value = encryptedData.combined;
-                formatDescription.textContent = '📦 组合格式：IV(16字节) + 密文，Base64编码。适用于本工具解密';
+                formatDescription.textContent = '📦 组合格式：IV + 密文 + HMAC-SHA256认证标签，Base64编码，已完整性保护';
                 break;
             case 'standard':
                 output.value = encryptedData.ciphertext;
-                formatDescription.textContent = '📋 标准CryptoJS格式：可被其他使用CryptoJS的网站或工具解密';
+                formatDescription.textContent = '📋 标准CryptoJS格式：可被其他使用CryptoJS的工具解密（无认证）';
                 break;
             case 'separate':
                 output.value = `IV: ${encryptedData.iv}\n\n密文: ${encryptedData.ciphertext}`;
-                formatDescription.textContent = '📊 分离格式：提供独立的IV和密文，可用于大多数在线AES解密工具';
+                formatDescription.textContent = '📊 分离格式：提供独立的IV和密文，用于在线AES解密工具（无认证）';
                 btnCopyIV.style.display = 'inline-flex';
                 break;
             case 'hex':
                 output.value = encryptedData.hex;
-                formatDescription.textContent = '🔢 十六进制格式：IV+密文的十六进制表示';
+                formatDescription.textContent = '🔢 十六进制格式：IV+密文+认证标签的十六进制表示';
                 break;
         }
         
@@ -363,8 +362,9 @@
             return;
         }
 
-        if (![16, 24, 32].includes(key.length)) {
-            showToast('⚠️ 密钥长度必须为16、24或32个字符');
+        const keyBytes = CryptoJS.enc.Utf8.parse(key).sigBytes;
+        if (![16, 24, 32].includes(keyBytes)) {
+            showToast('⚠️ 密钥长度必须为16、24或32字节');
             shakeElement(aesEncryptKey);
             return;
         }
@@ -443,8 +443,9 @@
             return;
         }
 
-        if (![16, 24, 32].includes(key.length)) {
-            showToast('⚠️ 密钥长度必须为16、24或32个字符');
+        const keyBytes = CryptoJS.enc.Utf8.parse(key).sigBytes;
+        if (![16, 24, 32].includes(keyBytes)) {
+            showToast('⚠️ 密钥长度必须为16、24或32字节');
             shakeElement(aesDecryptKey);
             return;
         }

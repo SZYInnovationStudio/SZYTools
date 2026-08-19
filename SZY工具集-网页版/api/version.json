@@ -1,24 +1,24 @@
 {
     "name": "SZY工具集",
-    "versionName": "5.4.0",
-    "versionCode": 540,
+    "versionName": "5.5.0",
+    "versionCode": 550,
     "packageName": "cn.szystudio.szytools",
     "minSdkVersion": 21,
-    "updateTime": "2026-08-18",
+    "updateTime": "2026-08-19",
     "changelog": [
         {
-            "version": "5.4.0",
-            "date": "2026-08-18",
+            "version": "5.5.0",
+            "date": "2026-08-19",
             "changes": [
-                "修复 htpasswd 生成结果无效、Hex 编解码 Unicode 损坏、图片锐化强度滑块无效的问题。"
+                "修复 htpasswd 生成结果无效、Hex 编解码 Unicode 损坏、图片锐化强度滑块无效的问题。",
+                "修复 14 项安全与逻辑问题：AES 安全随机密钥、密钥字节长度校验与 HMAC 完整性认证；更新器新增 SHA-256 完整性校验；CDN 依赖本地化离线可用；UUID 安全随机、图片锐化黑色像素、CSS 压缩字符串保护、XML 注释/CDATA 保留等。"
             ]
         }
     ],
     "download": {
-        "url": "/api/apk/szytools-5.4.0.apk",
-        "size": "4.88 MB",
-        "md5": "a1da9d47ca8eea0abfa79e6680b7f0ba",
-        "sha1": "14707476683631331da46a27276d61575454cb96"
+        "url": "/api/apk/szytools-5.5.0.apk",
+        "size": "6.04 MB",
+        "sha256": "992de67177d219b9f6d5be1a7d07544de74d82a64bb1325f4692efdc327165d5"
     },
     "forceUpdate": false,
     "updateMessage": "发现新版本！\n\n是否立即下载更新？"
